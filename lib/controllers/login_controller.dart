@@ -1,36 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../views/screens/forgot_password/forgot_password_screen.dart';
 
-class LoginController extends ChangeNotifier {
-  LoginController() {
-    emailController.addListener(notifyListeners);
-    passwordController.addListener(notifyListeners);
-  }
+class LoginController extends GetxController {
 
   // ── Controllers ──
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   // ── State ──
-  bool _obscurePassword = true;
-  bool _isLoading = false;
-  String? _emailError;
-  String? _passwordError;
+  final _obscurePassword = true.obs;
+  final _isLoading = false.obs;
+  final _emailError = RxnString();
+  final _passwordError = RxnString();
 
   // ── Getters ──
-  bool get obscurePassword => _obscurePassword;
-  bool get isLoading => _isLoading;
-  String? get emailError => _emailError;
-  String? get passwordError => _passwordError;
+  bool get obscurePassword => _obscurePassword.value;
+  bool get isLoading => _isLoading.value;
+  String? get emailError => _emailError.value;
+  String? get passwordError => _passwordError.value;
 
   bool get isFormFilled =>
       emailController.text.trim().isNotEmpty &&
           passwordController.text.isNotEmpty;
 
+  @override
+  void onInit() {
+    super.onInit();
+    emailController.addListener(update);
+    passwordController.addListener(update);
+  }
+
   // ── Toggle Password Visibility ──
   void togglePasswordVisibility() {
-    _obscurePassword = !_obscurePassword;
-    notifyListeners();
+    _obscurePassword.value = !_obscurePassword.value;
+    update();
   }
 
   // ── Validation ──
@@ -41,26 +45,26 @@ class LoginController extends ChangeNotifier {
     final password = passwordController.text;
 
     if (email.isEmpty) {
-      _emailError = 'Email is required';
+      _emailError.value = 'Email is required';
       isValid = false;
     } else if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w]{2,4}$').hasMatch(email)) {
-      _emailError = 'Enter a valid email';
+      _emailError.value = 'Enter a valid email';
       isValid = false;
     } else {
-      _emailError = null;
+      _emailError.value = null;
     }
 
     if (password.isEmpty) {
-      _passwordError = 'Password is required';
+      _passwordError.value = 'Password is required';
       isValid = false;
     } else if (password.length < 6) {
-      _passwordError = 'Minimum 6 characters';
+      _passwordError.value = 'Minimum 6 characters';
       isValid = false;
     } else {
-      _passwordError = null;
+      _passwordError.value = null;
     }
 
-    notifyListeners();
+    update();
     return isValid;
   }
 
@@ -68,55 +72,50 @@ class LoginController extends ChangeNotifier {
   Future<void> signIn(BuildContext context) async {
     if (!_validate()) return;
 
-    _isLoading = true;
-    notifyListeners();
+    _isLoading.value = true;
+    update();
 
     try {
       await Future.delayed(const Duration(seconds: 2));
 
-      if (context.mounted) {
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Signed in successfully!'),
-            backgroundColor: Colors.black,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
+      Get.snackbar(
+        'Success',
+        'Signed in successfully!',
+        backgroundColor: Colors.black,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
+      // Get.offAll(() => const HomeScreen());
+
     } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: ${e.toString()}'),
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _isLoading.value = false;
+      update();
     }
   }
 
   // ── Forgot Password ──
   void forgotPassword(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
-    );
+    Get.to(() => const ForgotPasswordScreen());
   }
 
   // ── Sign Up ──
   void goToSignUp(BuildContext context) {
-    // Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
+    // Get.to(() => const SignUpScreen());
   }
 
   @override
-  void dispose() {
+  void onClose() {
     emailController.dispose();
     passwordController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

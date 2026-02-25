@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../../themes/app_colors.dart';
+import '../../themes/app_text_styles.dart';
 import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,17 +37,11 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Future.delayed(const Duration(seconds: 5), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const OnboardingScreen(),
-            transitionsBuilder: (_, animation, __, child) =>
-                FadeTransition(opacity: animation, child: child),
-            transitionDuration: const Duration(milliseconds: 500),
-          ),
-        );
-      }
+      Get.offAll(
+            () => const OnboardingScreen(),
+        transition: Transition.fade,
+        duration: const Duration(milliseconds: 500),
+      );
     });
   }
 
@@ -60,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:AppColors.textPrimary,
+      backgroundColor: AppColors.background,
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
@@ -70,31 +64,28 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Scissors Icon
-                Icon(
-                  Icons.content_cut_outlined,
-                  size: 48.sp,
-                  color: Colors.black,
+                Image.asset(
+                  'assets/images/content_cut_outlined.png',
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.contain,
                 ),
-                SizedBox(height: 20.h),
                 // BarberCall Text
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
                         text: 'Barber',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 28.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
+                        style: AppTextStyles.displayMedium.copyWith(
+                          color: AppColors.textBlack,
                           letterSpacing: -0.5,
                         ),
                       ),
                       TextSpan(
                         text: 'Call',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 28.sp,
+                        style: AppTextStyles.displayMedium.copyWith(
+                          color: AppColors.textSecondary,
                           fontWeight: FontWeight.w300,
-                          color: Colors.black,
                           letterSpacing: -0.5,
                         ),
                       ),

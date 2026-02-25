@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../themes/app_colors.dart';
+import '../../themes/app_text_styles.dart';
 
-
-class AppInputField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
-  final IconData prefixIcon;
+  final Widget prefixIcon;
   final bool obscureText;
   final TextInputType? keyboardType;
   final Widget? suffixIcon;
   final String? errorText;
   final String? label;
 
-  const AppInputField({
+  const CustomTextField({
     super.key,
     required this.controller,
     required this.hint,
@@ -34,10 +33,8 @@ class AppInputField extends StatelessWidget {
         if (label != null) ...[
           Text(
             label!,
-            style: GoogleFonts.montserrat(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.bg,
+            style: AppTextStyles.inputLabel.copyWith(
+              color: AppColors.textBlack,
             ),
           ),
           SizedBox(height: 8.h),
@@ -46,37 +43,34 @@ class AppInputField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
-          style: GoogleFonts.montserrat(fontSize: 14.sp, color: AppColors.bg),
+          style: AppTextStyles.inputText.copyWith(color: AppColors.textSecondary1),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: GoogleFonts.montserrat(
-                fontSize: 14.sp, color: AppColors.textSecondary),
+            hintStyle: AppTextStyles.inputHint,
             errorText: errorText,
-            errorStyle: GoogleFonts.montserrat(fontSize: 11.sp),
-            prefixIcon:
-            Icon(prefixIcon, color: AppColors.textSecondary, size: 20.sp),
+            errorStyle: AppTextStyles.inputError,
+            prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: AppColors.textPrimary,
+            fillColor: AppColors.background,
             contentPadding:
             EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
-              borderSide:
-              BorderSide(color: const Color(0xFFE0E0E0), width: 1.w),
+              borderSide: BorderSide(color: AppColors.border, width: 1.w),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(color: AppColors.bg, width: 1.5.w),
+              borderSide:
+              BorderSide(color: AppColors.border, width: 1.5.w),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
-              borderSide: const BorderSide(color: Colors.redAccent, width: 1),
+              borderSide: BorderSide(color: AppColors.error, width: 1.w),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
-              borderSide:
-              const BorderSide(color: Colors.redAccent, width: 1.5),
+              borderSide: BorderSide(color: AppColors.error, width: 1.5.w),
             ),
           ),
         ),

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../../../controllers/forgot_password_controller.dart';
 import '../../../themes/app_colors.dart';
+import '../../../themes/app_text_styles.dart';
 import '../../base/custom_button.dart';
 import '../../base/otp_input_field.dart';
 import '../../base/sign_up_row.dart';
 import 'forgot_password_new_password_screen.dart';
 
 class ForgotPasswordOtpScreen extends StatefulWidget {
-  final ForgotPasswordController controller;
-
-  const ForgotPasswordOtpScreen({super.key, required this.controller});
+  const ForgotPasswordOtpScreen({super.key});
 
   @override
   State<ForgotPasswordOtpScreen> createState() =>
@@ -20,8 +19,7 @@ class ForgotPasswordOtpScreen extends StatefulWidget {
 
 class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
   final List<FocusNode> _otpFocusNodes = List.generate(6, (_) => FocusNode());
-
-  ForgotPasswordController get _controller => widget.controller;
+  final controller = Get.find<ForgotPasswordController>();
 
   @override
   void dispose() {
@@ -31,169 +29,181 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
     super.dispose();
   }
 
-  Future<void> _onVerify() async {
-    await _controller.verifyCode(context);
-    if (_controller.step == ForgotPasswordStep.createPassword &&
-        context.mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) =>
-              ForgotPasswordNewPasswordScreen(controller: _controller),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.textPrimary,
+      backgroundColor: AppColors.background,
       body: SafeArea(
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, _) {
-            return SingleChildScrollView(
+        child: GetBuilder<ForgotPasswordController>(
+          builder: (_) {
+          return SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 48.h),
-
-                  // ── Logo ──
-                  Icon(Icons.content_cut_outlined,
-                      size: 36.sp, color: AppColors.bg),
-
-                  SizedBox(height: 80.h),
-
-                  // ── Title ──
-                  Text(
-                    'Enter Verification Code',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.bg,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    "We've sent a 6-digit code to",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 13.sp, color: AppColors.textSecondary),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    _controller.sentEmail,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF4A90E2),
-                    ),
-                  ),
-
-                  SizedBox(height: 36.h),
-
-                  // ── OTP Boxes ──
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(6, (i) {
-                      return OtpInputField(
-                        controller: _controller.otpControllers[i],
-                        focusNode: _otpFocusNodes[i],
-                        onChanged: (val) {
-                          if (val.isNotEmpty && i < 5) {
-                            _otpFocusNodes[i + 1].requestFocus();
-                          } else if (val.isEmpty && i > 0) {
-                            _otpFocusNodes[i - 1].requestFocus();
-                          }
-                          _controller.notifyListeners();
-                        },
-                      );
-                    }),
-                  ),
-
-                  if (_controller.otpError != null) ...[
-                    SizedBox(height: 8.h),
-                    Text(
-                      _controller.otpError!,
-                      style: GoogleFonts.montserrat(
-                          fontSize: 11.sp, color: Colors.redAccent),
-                    ),
-                  ],
-
-                  SizedBox(height: 24.h),
-
-                  // ── Verify Button ──
-                  GradientButton(
-                    label: 'Verify Code',
-                    isLoading: _controller.isLoading,
-                    isEnabled: true,
-                    onTap: _onVerify,
-                  ),
-
-                  SizedBox(height: 16.h),
-
-                  // ── Resend Timer ──
-                  GestureDetector(
-                    onTap:
-                    _controller.canResend ? _controller.resendCode : null,
-                    child: RichText(
-                      text: TextSpan(
-                        style: GoogleFonts.montserrat(
-                            fontSize: 13.sp, color: AppColors.textSecondary),
-                        children: [
-                          const TextSpan(text: 'Resend code in '),
-                          TextSpan(
-                            text: _controller.canResend
-                                ? 'Resend now'
-                                : '${_controller.resendSeconds}s',
-                            style: GoogleFonts.montserrat(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
-                              color: _controller.canResend
-                                  ? AppColors.bg
-                                  : const Color(0xFF4A90E2),
-                            ),
-                          ),
-                        ],
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // ── Logo ──
+                      Image.asset(
+                        'assets/images/content_cut_outlined.png',
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.contain,
                       ),
-                    ),
-                  ),
+                      SizedBox(height: 40.h),
 
-                  SizedBox(height: 20.h),
+                      // ── Title ──
+                      Text(
+                        'Enter Verification Code',
+                        style: AppTextStyles.onboardingTitle.copyWith(
+                          color: AppColors.textBlack1,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        "We've sent a 6-digit code to",
+                        style: AppTextStyles.onboardingSubtitle,
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        controller.sentEmail,
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.info,
+                        ),
+                      ),
 
-                  // ── Info Box ──
-                  Container(
-                    padding: EdgeInsets.all(14.w),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF0F4FF),
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(Icons.info_outline,
-                            size: 18.sp, color: const Color(0xFF4A90E2)),
-                        SizedBox(width: 10.w),
-                        Expanded(
-                          child: Text(
-                            "Check your spam folder if you don't see the code. The code expires in 10 minutes.",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 12.sp,
-                                color: AppColors.textSecondary,
-                                height: 1.5),
-                          ),
+                      SizedBox(height: 16.h),
+
+                      // ── OTP Boxes ──
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(6, (i) {
+                          return OtpInputField(
+                            controller: controller.otpControllers[i],
+                            focusNode: _otpFocusNodes[i],
+                            onChanged: (val) {
+                              if (val.isNotEmpty && i < 5) {
+                                _otpFocusNodes[i + 1].requestFocus();
+                              } else if (val.isEmpty && i > 0) {
+                                _otpFocusNodes[i - 1].requestFocus();
+                              }
+                            },
+                          );
+                        }),
+                      ),
+
+                      if (controller.otpError != null) ...[
+                        SizedBox(height: 8.h),
+                        Text(
+                          controller.otpError!,
+                          style: AppTextStyles.inputError,
                         ),
                       ],
-                    ),
-                  ),
 
-                  SizedBox(height: 120.h),
-                  SignUpRow(onTap: () => _controller.goToSignUp(context)),
-                  SizedBox(height: 24.h),
-                ],
+                      SizedBox(height: 24.h),
+
+                      // ── Verify Button ──
+                      CustomButton(
+                        label: 'Verify Code',
+                        isLoading: controller.isLoading,
+                        isEnabled: true,
+                        onTap: () async {
+                          await controller.verifyCode();
+                          if (controller.step ==
+                              ForgotPasswordStep.createPassword) {
+                            Get.to(
+                                    () => const ForgotPasswordNewPasswordScreen());
+                          }
+                        },
+                      ),
+
+                      SizedBox(height: 32.h),
+
+                      // ── Resend Timer ─
+          Container(
+            width: double.infinity,
+          height: 43.h,
+          padding: EdgeInsets.all(14.w),
+          decoration: BoxDecoration(
+          color: AppColors.surfaceVariant1,
+          borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Obx(() => GestureDetector(
+                        onTap:
+                        controller.canResend ? controller.resendCode : null,
+                        child: RichText(
+                          text: TextSpan(
+                            style: AppTextStyles.bodySecondary,
+                            children: [
+                              const TextSpan(text: 'Resend code in '),
+                              TextSpan(
+                                text: controller.canResend
+                                    ? 'Resend now'
+                                    : '${controller.resendSeconds}s',
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  color: controller.canResend
+                                      ? AppColors.textPrimary
+                                      : AppColors.textSecondary1,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      ),
+                      ],
+                     ),
+                     ),
+
+                      SizedBox(height: 16.h),
+
+                      // ── Info Box ──
+                      Container(
+                        padding: EdgeInsets.all(14.w),
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceVariant1,
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.info_outline,
+                              size: 18.sp,
+                              color: AppColors.info,
+                            ),
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              child: Text(
+                                "Check your spam folder if you don't see the code. The code expires in 10 minutes.",
+                                style: AppTextStyles.caption.copyWith(
+                                  height: 1.5,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+
+                      // ── Sign Up Link ──
+                      SignUpRow(onTap: controller.goToSignUp,
+                        signUpColor: AppColors.textPrimary
+                      ),
+                      SizedBox(height: 24.h),
+                    ],
+                  ),
+                ),
               ),
-            );
+              );
           },
         ),
       ),

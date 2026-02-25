@@ -1,110 +1,110 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-
+import 'package:get/get.dart';
 import '../../../controllers/forgot_password_controller.dart';
 import '../../../themes/app_colors.dart';
+import '../../../themes/app_text_styles.dart';
 import '../../base/custom_button.dart';
 import '../../base/custom_text_field.dart';
 import '../../base/sign_up_row.dart';
 import 'forgot_password_otp_screen.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
-}
-
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final ForgotPasswordController _controller = ForgotPasswordController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future<void> _onSend() async {
-    await _controller.sendVerificationCode(context);
-    if (_controller.step == ForgotPasswordStep.enterOtp && context.mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => ForgotPasswordOtpScreen(controller: _controller),
-        ),
-      );
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ForgotPasswordController());
+
     return Scaffold(
-      backgroundColor: AppColors.textPrimary,
+      backgroundColor: AppColors.background,
       body: SafeArea(
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, _) {
+        child: GetBuilder<ForgotPasswordController>(
+          builder: (_) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 48.h),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // ── Logo ──
+                      Image.asset(
+                        'assets/images/content_cut_outlined.png',
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.contain,
+                      ),
 
-                  // ── Logo ──
-                  Icon(Icons.content_cut_outlined,
-                      size: 36.sp, color: AppColors.bg),
+                      SizedBox(height: 100.h),
 
-                  SizedBox(height: 150.h),
+                      // ── Title ──
+                      Text(
+                        'Forgot Password',
+                        style: AppTextStyles.onboardingTitle.copyWith(
+                          color: AppColors.textBlack1,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        "Enter your email address and we'll send you a\nverification code.",
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.onboardingSubtitle.copyWith(
+                          color: AppColors.textSecondary1,
+                          fontWeight: FontWeight.w600,
+                          height: 1.6,
+                        ),
+                      ),
 
-                  // ── Title ──
-                  Text(
-                    'Forgot Password',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary1,
-                    ),
+                      SizedBox(height: 16.h),
+
+                      // ── Email Field ──
+                      CustomTextField(
+                        controller: controller.emailController,
+                        hint: 'your@email.com',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.all(12.w),
+                          child: Image.asset(
+                            'assets/images/email_icon.png',
+                            width: 20.w,
+                            height: 20.w,
+                          ),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        errorText: controller.emailError,
+                        label: 'Email Address',
+                      ),
+
+                      SizedBox(height: 32.h),
+
+                      // ── Send Button ──
+                      CustomButton(
+                        label: 'Send Verification Code',
+                        isLoading: controller.isLoading,
+                        isEnabled: true,
+                        onTap: () async {
+                          await controller.sendVerificationCode();
+                          if (controller.step == ForgotPasswordStep.enterOtp) {
+                            Get.to(() => const ForgotPasswordOtpScreen());
+                          }
+                        },
+                      ),
+
+                      SizedBox(height: 250.h),
+
+                      // ── Sign Up Link ──
+                      SignUpRow(
+                        onTap: controller.goToSignUp,
+                        signUpColor: AppColors.textPrimary
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    "Enter your email address and we'll send you a\nverification code.",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
-                      height: 1.6,
-                    ),
-                  ),
-
-                  SizedBox(height: 26.h),
-
-                  // ── Email Field ──
-                  AppInputField(
-                    controller: _controller.emailController,
-                    hint: 'your@email.com',
-                    prefixIcon: Icons.email_outlined,
-                    keyboardType: TextInputType.emailAddress,
-                    errorText: _controller.emailError,
-                    label: 'Email Address',
-                  ),
-
-                  SizedBox(height: 24.h),
-
-                  // ── Send Button ──
-                  GradientButton(
-                    label: 'Send Verification Code',
-                    isLoading: _controller.isLoading,
-                    isEnabled: true,
-                    onTap: _onSend,
-                  ),
-
-                  SizedBox(height: 260.h),
-                  SignUpRow(onTap: () => _controller.goToSignUp(context)),
-                  SizedBox(height: 24.h),
-                ],
+                ),
               ),
             );
           },

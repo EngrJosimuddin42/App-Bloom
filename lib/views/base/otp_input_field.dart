@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../themes/app_colors.dart';
+import '../../themes/app_text_styles.dart';
 
-class OtpInputField extends StatelessWidget {
+class OtpInputField extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final ValueChanged<String> onChanged;
@@ -17,37 +17,51 @@ class OtpInputField extends StatelessWidget {
   });
 
   @override
+  State<OtpInputField> createState() => _OtpInputFieldState();
+}
+
+class _OtpInputFieldState extends State<OtpInputField> {
+  @override
+  void initState() {
+    super.initState();
+    widget.focusNode.addListener(() {
+      if (widget.focusNode.hasFocus) {
+        widget.controller.clear();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 46.w,
-      height: 54.h,
+      width: 44.w,
+      height: 44.h,
       child: TextField(
-        controller: controller,
-        focusNode: focusNode,
+        controller: widget.controller,
+        focusNode: widget.focusNode,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
         maxLength: 1,
+        autofillHints: const [],
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        style: GoogleFonts.montserrat(
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.bg,
+        style: AppTextStyles.metricValue.copyWith(
+          color: AppColors.textBlack,
         ),
         decoration: InputDecoration(
           counterText: '',
           filled: true,
-          fillColor: AppColors.textPrimary,
+          fillColor: AppColors.background,
           contentPadding: EdgeInsets.zero,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(color: const Color(0xFFE0E0E0), width: 1.w),
+            borderSide: BorderSide(color: AppColors.border, width: 1.w),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(color: AppColors.bg, width: 1.5.w),
+            borderSide: BorderSide(color: AppColors.border, width: 1.5.w),
           ),
         ),
-        onChanged: onChanged,
+        onChanged: widget.onChanged,
       ),
     );
   }

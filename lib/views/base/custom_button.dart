@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../themes/app_colors.dart';
+import '../../themes/app_text_styles.dart';
 
-class GradientButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final String label;
   final bool isLoading;
   final bool isEnabled;
@@ -11,7 +11,7 @@ class GradientButton extends StatelessWidget {
   final double? height;
   final double? borderRadius;
 
-  const GradientButton({
+  const CustomButton({
     super.key,
     required this.label,
     required this.onTap,
@@ -33,34 +33,26 @@ class GradientButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         child: Ink(
           decoration: BoxDecoration(
-            color: isEnabled ? null : const Color(0xFF8F8F8F),
-            gradient: isEnabled
-                ? const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xFF2B2B2B), Color(0xFF000000)],
-            )
-                : null,
+            color: isEnabled ? null : AppColors.textHint,
+            gradient: isEnabled ? AppColors.splashGradient : null,
             borderRadius: BorderRadius.circular(radius),
           ),
           child: InkWell(
-            onTap: isLoading ? null : onTap,
+            onTap: isEnabled && !isLoading ? onTap : null,
             borderRadius: BorderRadius.circular(radius),
             child: Center(
               child: isLoading
                   ? SizedBox(
                 width: 22.w,
                 height: 22.w,
-                child: const CircularProgressIndicator(
-                    color: Colors.white, strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  color: AppColors.background,
+                  strokeWidth: 2,
+                ),
               )
                   : Text(
                 label,
-                style: GoogleFonts.montserrat(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                ),
+                style: AppTextStyles.buttonLarge,
               ),
             ),
           ),

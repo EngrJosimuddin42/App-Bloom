@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../themes/app_colors.dart';
+import '../../themes/app_text_styles.dart';
 
 class PasswordRequirementRow extends StatelessWidget {
   final bool met;
@@ -20,14 +20,13 @@ class PasswordRequirementRow extends StatelessWidget {
         Icon(
           Icons.circle,
           size: 10.sp,
-          color: met ? const Color(0xFF4CAF50) : AppColors.textSecondary,
+          color: met ? AppColors.success : AppColors.textSecondary,
         ),
         SizedBox(width: 8.w),
         Text(
           label,
-          style: GoogleFonts.montserrat(
-            fontSize: 12.sp,
-            color: met ? AppColors.bg : AppColors.textSecondary,
+          style: AppTextStyles.caption.copyWith(
+            color: met ? AppColors.background : AppColors.textSecondary,
           ),
         ),
       ],

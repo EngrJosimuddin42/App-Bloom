@@ -1,97 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppColors {
   AppColors._();
 
-  static const Color bg            = Color(0xFF0E0E0E);
-  static const Color surface       = Color(0xFF212121);
-  static const Color surface1      = Color(0xFF3B3B3B);
-  static const Color card          = Color(0xFF222222);
-  static const Color card1         = Color(0xFF34404B);
-  static const Color accent        = Color(0xFF8ECAFF);
-  static const Color divider       = Color(0xFF2A2A2A);
-  static const Color textPrimary   = Colors.white;
-  static const Color textPrimary1  = Color(0x3C3C4333);
-  static const Color textSecondary = Color(0xFF8F8F8F);
-  static const Color textSecondary1 = Color(0xFF6A635C);
-  static const Color positive      = Color(0xFF8ECAFF);
-  static const Color negative      = Colors.redAccent;
-}
+  // Primary Colors
+  static const Color primary        = Color(0xFF6C3CE1);
+  static const Color primaryLight   = Color(0xFF8F6FEB);
+  static const Color primaryDark    = Color(0xFF4A1FBF);
 
-class AppTextStyles {
-  AppTextStyles._();
+  //  Secondary / Accent
+  static const Color secondary      = Color(0xFF00C897);
+  static const Color secondaryLight = Color(0xFF4DDBBA);
+  static const Color secondaryDark  = Color(0xFF008F6B);
 
-  static TextStyle get heading => TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 17.sp,
-    fontWeight: FontWeight.w600,
+  // Background Colors
+  static const Color background     = Color(0xFFFFFFFF); // White
+  static const Color backgroundGrey = Color(0xFFD9D9D9);
+  static const Color backgroundBlack = Color(0xFF000000);
+  static const Color backgroundDark = Color(0xFF121212); // Dark mode bg
+
+  // Surface / Card
+  static const Color surface        = Color(0xFFFFFFFF);
+  static const Color surfaceVariant = Color(0x3C3C4333);
+  static const Color surfaceVariant1 = Color(0x145B89FF);
+  static const Color cardColor      = Color(0xFFFFFFFF);
+
+  // Text Colors
+  static const Color textPrimary    = Color(0xFF5B89FF);
+  static const Color textSecondary  = Color(0xFF8F8F8F);
+  static const Color textSecondary1  = Color(0xFF6A635C);
+  static const Color textSecondary2  = Color(0xFFB3B3B3);
+  static const Color textHint       = Color(0xFF8F8F8F);
+  static const Color textWhite      = Color(0xFFFFFFFF);
+  static const Color textBlack  = Color(0xFF000000);
+  static const Color textBlack1  = Color(0xFF3C3C3C);
+
+  // Border / Divider
+  static const Color border         = Color(0xFF5C5C5C);
+  static const Color divider        = Color(0xFFF3F4F6);
+
+  // Status Colors
+  static const Color success        = Color(0xFF22C55E);
+  static const Color successLight   = Color(0xFFDCFCE7);
+  static const Color error          = Color(0xFFEF4444);
+  static const Color errorLight     = Color(0xFFFEE2E2);
+  static const Color warning        = Color(0xFFF59E0B);
+  static const Color warningLight   = Color(0xFFFEF3C7);
+  static const Color info           = Color(0xFF5B89FF);
+  static const Color infoLight      = Color(0xFFDBEAFE);
+
+  // Shadow
+  static const Color shadow         = Color(0x1A000000);
+  static const Color shadowLight    = Color(0x0D000000);
+
+  // Transparent
+  static const Color transparent    = Colors.transparent;
+
+  // Gradient
+  static const LinearGradient primaryGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [primary, primaryLight],
   );
 
-  static TextStyle get sectionTitle => TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 15.sp,
-    fontWeight: FontWeight.w600,
-  );
-
-  static TextStyle get metricValue => TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 20.sp,
-    fontWeight: FontWeight.w700,
-  );
-
-  static TextStyle get metricLabel => TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 11.sp,
-  );
-
-  static TextStyle get tabActive => TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 13.sp,
-    fontWeight: FontWeight.w600,
-  );
-
-  static TextStyle get tabInactive => TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 13.sp,
-  );
-
-  static TextStyle get rangeActive => TextStyle(
-    color: Colors.black,
-    fontSize: 12.sp,
-    fontWeight: FontWeight.w500,
-  );
-
-  static TextStyle get rangeInactive => TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 12.sp,
-    fontWeight: FontWeight.w500,
-  );
-
-  static TextStyle get bodyPrimary => TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 13.sp,
-  );
-
-  static TextStyle get bodySecondary => TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 13.sp,
-  );
-
-  static TextStyle get caption => TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 11.sp,
-  );
-
-  static TextStyle get chartLabel => TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 9.sp,
-  );
-
-  static TextStyle get changeText => TextStyle(fontSize: 10.sp);
-
-  static TextStyle get dateLabel => TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 10.sp,
+  static const LinearGradient splashGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFF2B2B2B), Color(0xFF000000)],
   );
 }

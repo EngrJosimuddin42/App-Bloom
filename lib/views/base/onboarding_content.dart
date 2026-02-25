@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../../models/onboarding_model.dart';
+import '../../../themes/app_colors.dart';
+import '../../../themes/app_text_styles.dart';
 
 class OnboardingPageView extends StatelessWidget {
   final OnboardingModel data;
@@ -16,48 +16,46 @@ class OnboardingPageView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Icon Box
+          // ── Icon Box ──
           Container(
             width: 100.w,
             height: 100.w,
             decoration: BoxDecoration(
-              color: const Color(0x3C3C4333),
+              color: AppColors.surfaceVariant,
               borderRadius: BorderRadius.circular(16.r),
             ),
-            child: Icon(
-              data.icon,
-              color: Colors.black,
-              size: 44.sp,
+            child: Padding(
+              padding: EdgeInsets.all(30.w),
+              child: Image.asset(
+                data.imagePath,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
 
           SizedBox(height: 48.h),
 
-          // Title
+          // ── Title ──
           Text(
             data.title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
+            style: AppTextStyles.onboardingTitle.copyWith(
+              color: AppColors.textBlack,
               letterSpacing: -0.5,
-              height: 1.2,
             ),
           ),
 
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h),
 
-          // Description
+          // ── Description ──
           Text(
             data.description,
             textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF8F8F8F),
-              height: 1.5,
+            style: AppTextStyles.onboardingSubtitle.copyWith(
+              color: AppColors.textSecondary,
+              letterSpacing: -0.5,
             ),
+
           ),
         ],
       ),

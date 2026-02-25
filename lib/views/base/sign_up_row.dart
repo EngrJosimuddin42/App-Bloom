@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../themes/app_colors.dart';
+import '../../themes/app_text_styles.dart';
 
 class SignUpRow extends StatelessWidget {
   final VoidCallback onTap;
@@ -16,50 +15,19 @@ class SignUpRow extends StatelessWidget {
       children: [
         Text(
           "Don't have an account? ",
-          style: GoogleFonts.montserrat(
-              fontSize: 13.sp, color: AppColors.textSecondary),
+          style: AppTextStyles.bodySecondary,
         ),
         GestureDetector(
           onTap: onTap,
           child: Text(
             'Sign Up',
-            style: GoogleFonts.montserrat(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w700,
-                color: signUpColor ?? AppColors.bg),
+            style: AppTextStyles.bodyMedium.copyWith(
+              fontWeight: FontWeight.w700,
+              color: signUpColor ?? AppColors.textBlack,
+            ),
           ),
         ),
       ],
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
