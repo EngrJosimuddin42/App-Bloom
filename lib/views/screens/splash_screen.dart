@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../controllers/splash_controller.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_text_styles.dart';
-import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
+    // ── Animation Setup ──
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -36,13 +37,8 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 5), () {
-      Get.offAll(
-            () => const OnboardingScreen(),
-        transition: Transition.fade,
-        duration: const Duration(milliseconds: 500),
-      );
-    });
+    // ── Navigation Controller ──
+    Get.put(SplashController());
   }
 
   @override

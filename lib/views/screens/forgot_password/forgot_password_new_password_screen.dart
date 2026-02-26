@@ -14,7 +14,7 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ForgotPasswordController>();
+    final controller = Get.put(ForgotPasswordController());
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -31,20 +31,15 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                 ),
                 child: IntrinsicHeight(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 48.h),
-
                       // ── Logo ──
-                      Center(
-                        child: Image.asset(
-                          'assets/images/content_cut_outlined.png',
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.contain,
-                        ),
+                      Image.asset(
+                        'assets/images/content_cut_outlined.png',
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.contain,
                       ),
-
                       SizedBox(height: 40.h),
 
                       // ── Title ──
@@ -52,11 +47,11 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                         child: Text(
                           'Create New Password',
                           style: AppTextStyles.onboardingTitle.copyWith(
-                            color: AppColors.textBlack,
+                            color: AppColors.textBlack1,
                           ),
                         ),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 4.h),
                       Center(
                         child: Text(
                           'Provide new password',
@@ -64,12 +59,12 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(height: 28.h),
+                      SizedBox(height: 18.h),
 
                       // ── New Password ──
                       CustomTextField(
                         controller: controller.newPasswordController,
-                        hint: '• • • • • • • • •',
+                        hint: '* * * * * * * * *',
                         prefixIcon: Padding(
                           padding: EdgeInsets.all(12.w),
                           child: Image.asset(
@@ -80,16 +75,21 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                         ),
                         obscureText: controller.obscureNew,
                         label: 'New Password',
-                        suffixIcon: GestureDetector(
+                        suffixIcon: Obx(() => GestureDetector(
                           onTap: controller.toggleObscureNew,
-                          child: Icon(
-                            controller.obscureNew
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: AppColors.textSecondary,
-                            size: 20.sp,
+                          child: Padding(
+                            padding: EdgeInsets.all(12.w),
+                            child: Image.asset(
+                              controller.obscureNew
+                                  ? 'assets/images/view-on.png'
+                                  : 'assets/images/view-off.png',
+                              width: 20.w,
+                              height: 20.w,
+                              color: AppColors.textBlack,
+                            ),
                           ),
                         ),
+                      ),
                       ),
 
                       SizedBox(height: 16.h),
@@ -97,7 +97,7 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                       // ── Confirm Password ──
                       CustomTextField(
                         controller: controller.confirmPasswordController,
-                        hint: '• • • • • • • • •',
+                        hint: '* * * * * * * * *',
                         prefixIcon: Padding(
                           padding: EdgeInsets.all(12.w),
                           child: Image.asset(
@@ -108,16 +108,21 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                         ),
                         obscureText: controller.obscureConfirm,
                         label: 'Confirm Password',
-                        suffixIcon: GestureDetector(
+                        suffixIcon: Obx(() => GestureDetector(
                           onTap: controller.toggleObscureConfirm,
-                          child: Icon(
-                            controller.obscureConfirm
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: AppColors.textSecondary,
-                            size: 20.sp,
+                          child: Padding(
+                            padding: EdgeInsets.all(12.w),
+                            child: Image.asset(
+                              controller.obscureConfirm
+                                  ? 'assets/images/view-on.png'
+                                  : 'assets/images/view-off.png',
+                              width: 20.w,
+                              height: 20.w,
+                              color: AppColors.textBlack,
+                            ),
                           ),
                         ),
+                      ),
                       ),
 
                       if (controller.passwordError != null) ...[
@@ -128,14 +133,14 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                         ),
                       ],
 
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 24.h),
 
                       // ── Password Requirements Box ──
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(16.w),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceVariant,
+                          color: AppColors.surfaceVariant1,
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                         child: Column(
@@ -144,7 +149,7 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                             Text(
                               'Password must contain:',
                               style: AppTextStyles.bodyMedium.copyWith(
-                                color: AppColors.textBlack,
+                                color: AppColors.textBlack2,
                               ),
                             ),
                             SizedBox(height: 10.h),

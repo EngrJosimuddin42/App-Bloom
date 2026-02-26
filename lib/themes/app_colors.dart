@@ -23,7 +23,7 @@ class AppColors {
   static const Color surface        = Color(0xFFFFFFFF);
   static const Color surfaceVariant = Color(0x3C3C4333);
   static const Color surfaceVariant1 = Color(0x145B89FF);
-  static const Color cardColor      = Color(0xFFFFFFFF);
+  static const Color cardColor      = Color(0xFFE7E7E7);
 
   // Text Colors
   static const Color textPrimary    = Color(0xFF5B89FF);
@@ -34,6 +34,7 @@ class AppColors {
   static const Color textWhite      = Color(0xFFFFFFFF);
   static const Color textBlack  = Color(0xFF000000);
   static const Color textBlack1  = Color(0xFF3C3C3C);
+  static const Color textBlack2  = Color(0xFF1F1F1F);
 
   // Border / Divider
   static const Color border         = Color(0xFF5C5C5C);

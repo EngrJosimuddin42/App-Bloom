@@ -100,6 +100,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       // ── Sign Up Link ──
                       SignUpRow(
                         onTap: controller.goToSignUp,
+                          isLoginMode: false,
                         signUpColor: AppColors.textPrimary
                       ),
                     ],

@@ -19,7 +19,7 @@ class ForgotPasswordOtpScreen extends StatefulWidget {
 
 class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
   final List<FocusNode> _otpFocusNodes = List.generate(6, (_) => FocusNode());
-  final controller = Get.find<ForgotPasswordController>();
+  final controller = Get.put(ForgotPasswordController());
 
   @override
   void dispose() {
@@ -127,7 +127,6 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                       // ── Resend Timer ─
           Container(
             width: double.infinity,
-          height: 43.h,
           padding: EdgeInsets.all(14.w),
           decoration: BoxDecoration(
           color: AppColors.surfaceVariant1,
@@ -151,7 +150,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                                 style: AppTextStyles.bodyMedium.copyWith(
                                   color: controller.canResend
                                       ? AppColors.textPrimary
-                                      : AppColors.textSecondary1,
+                                      : AppColors.textPrimary,
                                 ),
                               ),
                             ],

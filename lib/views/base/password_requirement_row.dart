@@ -19,14 +19,14 @@ class PasswordRequirementRow extends StatelessWidget {
       children: [
         Icon(
           Icons.circle,
-          size: 10.sp,
+          size: 20 .sp,
           color: met ? AppColors.success : AppColors.textSecondary,
         ),
         SizedBox(width: 8.w),
         Text(
           label,
           style: AppTextStyles.caption.copyWith(
-            color: met ? AppColors.background : AppColors.textSecondary,
+            color: met ? AppColors.textSecondary1 : AppColors.textSecondary1,
           ),
         ),
       ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../services/api_service.dart';
 import '../views/screens/forgot_password/forgot_password_screen.dart';
+import '../views/screens/sign_up/sign_up_screen.dart';
 
 class LoginController extends GetxController {
 
@@ -13,6 +15,8 @@ class LoginController extends GetxController {
   final _isLoading = false.obs;
   final _emailError = RxnString();
   final _passwordError = RxnString();
+
+  final _api = ApiService();
 
   // ── Getters ──
   bool get obscurePassword => _obscurePassword.value;
@@ -76,11 +80,14 @@ class LoginController extends GetxController {
     update();
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      final user = await _api.login(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
 
       Get.snackbar(
-        'Success',
-        'Signed in successfully!',
+        'Welcome back!',
+        'Signed in as ${user.fullName}',
         backgroundColor: Colors.black,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
@@ -90,7 +97,7 @@ class LoginController extends GetxController {
 
     } catch (e) {
       Get.snackbar(
-        'Error',
+        'Login Failed',
         e.toString(),
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
@@ -109,7 +116,7 @@ class LoginController extends GetxController {
 
   // ── Sign Up ──
   void goToSignUp(BuildContext context) {
-    // Get.to(() => const SignUpScreen());
+     Get.to(() => const SignUpScreen());
   }
 
   @override

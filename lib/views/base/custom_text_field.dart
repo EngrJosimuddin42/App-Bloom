@@ -6,7 +6,7 @@ import '../../themes/app_text_styles.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
-  final Widget prefixIcon;
+  final Widget? prefixIcon;
   final bool obscureText;
   final TextInputType? keyboardType;
   final Widget? suffixIcon;
@@ -17,7 +17,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hint,
-    required this.prefixIcon,
+    this.prefixIcon,
     this.obscureText = false,
     this.keyboardType,
     this.suffixIcon,

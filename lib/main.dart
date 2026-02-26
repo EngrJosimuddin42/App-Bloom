@@ -1,10 +1,21 @@
+import 'package:app_bloom/views/screens/home_page/barber/barber_home_screen.dart';
+import 'package:app_bloom/views/screens/login_screen.dart';
+import 'package:app_bloom/views/screens/sign_up/sign_up_otp_screen.dart';
+import 'package:app_bloom/views/screens/sign_up/sign_up_screen.dart';
+import 'package:app_bloom/views/screens/sign_up/sign_up_success_screen.dart';
+import 'package:app_bloom/views/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'services/api_service.dart';
 import 'themes/app_colors.dart';
-import 'views/screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  Get.put(ApiService(), permanent: true);
+
   runApp(const BarberCallApp());
 }
 
@@ -26,7 +37,7 @@ class BarberCallApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
             useMaterial3: true,
           ),
-          home: const SplashScreen(),
+          home: const BarberHomeScreen(),
         );
       },
     );

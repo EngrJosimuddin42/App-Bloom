@@ -92,13 +92,13 @@ class AppTextStyles {
 
   static TextStyle get bodySecondary => TextStyle(
     color: AppColors.textSecondary2,
-    fontSize: 11.sp,
+    fontSize: 16.sp,
     height: 1.5,
   );
 
   static TextStyle get bodyMedium => TextStyle(
     color: AppColors.textPrimary,
-    fontSize: 11.sp,
+    fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
 
