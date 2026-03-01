@@ -9,7 +9,7 @@ class AppColors {
   static const Color primaryDark    = Color(0xFF4A1FBF);
 
   //  Secondary / Accent
-  static const Color secondary      = Color(0xFF00C897);
+  static const Color secondary      = Color(0xFF34C759);
   static const Color secondaryLight = Color(0xFF4DDBBA);
   static const Color secondaryDark  = Color(0xFF008F6B);
 
@@ -17,7 +17,7 @@ class AppColors {
   static const Color background     = Color(0xFFFFFFFF); // White
   static const Color backgroundGrey = Color(0xFFD9D9D9);
   static const Color backgroundBlack = Color(0xFF000000);
-  static const Color backgroundDark = Color(0xFF121212); // Dark mode bg
+  static const Color backgroundAss = Color(0x853C3C3C);
 
   // Surface / Card
   static const Color surface        = Color(0xFFFFFFFF);
@@ -30,7 +30,6 @@ class AppColors {
   static const Color textSecondary  = Color(0xFF8F8F8F);
   static const Color textSecondary1  = Color(0xFF6A635C);
   static const Color textSecondary2  = Color(0xFFB3B3B3);
-  static const Color textHint       = Color(0xFF8F8F8F);
   static const Color textWhite      = Color(0xFFFFFFFF);
   static const Color textBlack  = Color(0xFF000000);
   static const Color textBlack1  = Color(0xFF3C3C3C);

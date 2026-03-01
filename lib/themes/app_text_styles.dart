@@ -159,7 +159,7 @@ class AppTextStyles {
   );
 
   static TextStyle get inputHint => TextStyle(
-    color: AppColors.textHint,
+    color: AppColors.textSecondary,
     fontSize: 14.sp,
   );
 

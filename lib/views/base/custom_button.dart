@@ -33,7 +33,7 @@ class CustomButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         child: Ink(
           decoration: BoxDecoration(
-            color: isEnabled ? null : AppColors.textHint,
+            color: isEnabled ? null : AppColors.textSecondary,
             gradient: isEnabled ? AppColors.splashGradient : null,
             borderRadius: BorderRadius.circular(radius),
           ),

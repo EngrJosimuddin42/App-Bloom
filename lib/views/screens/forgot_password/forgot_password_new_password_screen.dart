@@ -81,8 +81,8 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                             padding: EdgeInsets.all(12.w),
                             child: Image.asset(
                               controller.obscureNew
-                                  ? 'assets/images/view-on.png'
-                                  : 'assets/images/view-off.png',
+                                  ? 'assets/images/view-of.png'
+                                  : 'assets/images/view-on.png',
                               width: 20.w,
                               height: 20.w,
                               color: AppColors.textBlack,
@@ -114,8 +114,8 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
                             padding: EdgeInsets.all(12.w),
                             child: Image.asset(
                               controller.obscureConfirm
-                                  ? 'assets/images/view-on.png'
-                                  : 'assets/images/view-off.png',
+                                  ? 'assets/images/view-of.png'
+                                  : 'assets/images/view-on.png',
                               width: 20.w,
                               height: 20.w,
                               color: AppColors.textBlack,

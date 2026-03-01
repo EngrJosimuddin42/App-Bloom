@@ -7,7 +7,6 @@ class ApiService {
   factory ApiService() => _instance;
   ApiService._internal();
 
-  // ── Base URL এখানে change করো ──
   static const String _baseUrl = 'https://your-api.com/api';
 
   late final Dio _dio = Dio(
@@ -26,132 +25,83 @@ class ApiService {
   //  AUTH
   // ─────────────────────────────────────────
 
-  // ── Login ──
-  Future<UserModel> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserModel> login({required String email, required String password}) async {
     try {
-      final response = await _dio.post(
-        '/auth/login',
-        data: {
-          'email': email,
-          'password': password,
-        },
-      );
-
-      // API response structure অনুযায়ী adjust করো
+      final response = await _dio.post('/auth/login', data: {'email': email, 'password': password});
       final data = response.data['data'] ?? response.data;
       final user = UserModel.fromJson(data['user']);
       final token = data['token'];
-
-      // Storage এ save করো
       StorageHelper.saveToken(token);
       StorageHelper.saveUser(user);
       StorageHelper.setLoggedIn(true);
-
       return user;
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-  // ── Logout ──
   Future<void> logout() async {
     try {
       await _dio.post('/auth/logout');
     } catch (_) {
-      // Server error হলেও local data clear করবো
     } finally {
       StorageHelper.clearAll();
     }
   }
 
-  // ── Sign Up: Account Create ──
   Future<void> signUp({
     required String firstName,
     required String lastName,
     required String email,
     required String password,
     required String confirmPassword,
-    required String role, // 'customer' or 'barber'
+    required String role,
   }) async {
     try {
-      await _dio.post(
-        '/auth/register',
-        data: {
-          'first_name': firstName,
-          'last_name': lastName,
-          'email': email,
-          'password': password,
-          'password_confirmation': confirmPassword,
-          'role': role,
-        },
-      );
+      await _dio.post('/auth/register', data: {
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': email,
+        'password': password,
+        'password_confirmation': confirmPassword,
+        'role': role,
+      });
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-  // ── Sign Up: OTP Verify + Token Save ──
-  Future<UserModel> verifySignUpOtp({
-    required String email,
-    required String otp,
-  }) async {
+  Future<UserModel> verifySignUpOtp({required String email, required String otp}) async {
     try {
-      final response = await _dio.post(
-        '/auth/verify-email',
-        data: {
-          'email': email,
-          'otp': otp,
-        },
-      );
-
+      final response = await _dio.post('/auth/verify-email', data: {'email': email, 'otp': otp});
       final data = response.data['data'] ?? response.data;
       final user = UserModel.fromJson(data['user']);
       final token = data['token'];
-
       StorageHelper.saveToken(token);
       StorageHelper.saveUser(user);
       StorageHelper.setLoggedIn(true);
-
       return user;
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-  // ── Forgot Password: Email পাঠানো ──
   Future<void> sendResetEmail({required String email}) async {
     try {
-      await _dio.post(
-        '/auth/forgot-password',
-        data: {'email': email},
-      );
+      await _dio.post('/auth/forgot-password', data: {'email': email});
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-  // ── Forgot Password: OTP Verify ──
-  Future<void> verifyOtp({
-    required String email,
-    required String otp,
-  }) async {
+  Future<void> verifyOtp({required String email, required String otp}) async {
     try {
-      await _dio.post(
-        '/auth/verify-otp',
-        data: {
-          'email': email,
-          'otp': otp,
-        },
-      );
+      await _dio.post('/auth/verify-otp', data: {'email': email, 'otp': otp});
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-  // ── Forgot Password: নতুন Password Set ──
   Future<void> resetPassword({
     required String email,
     required String otp,
@@ -159,15 +109,12 @@ class ApiService {
     required String confirmPassword,
   }) async {
     try {
-      await _dio.post(
-        '/auth/reset-password',
-        data: {
-          'email': email,
-          'otp': otp,
-          'password': newPassword,
-          'password_confirmation': confirmPassword,
-        },
-      );
+      await _dio.post('/auth/reset-password', data: {
+        'email': email,
+        'otp': otp,
+        'password': newPassword,
+        'password_confirmation': confirmPassword,
+      });
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -177,7 +124,6 @@ class ApiService {
   //  BARBER
   // ─────────────────────────────────────────
 
-  // ── Barber: Dashboard Data ──
   Future<Map<String, dynamic>> getBarberDashboard() async {
     try {
       final response = await _dio.get('/barber/dashboard');
@@ -187,13 +133,52 @@ class ApiService {
     }
   }
 
-  // ── Barber: Online Status Toggle ──
   Future<void> updateOnlineStatus({required bool isOnline}) async {
     try {
-      await _dio.post(
-        '/barber/status',
-        data: {'is_online': isOnline},
-      );
+      await _dio.post('/barber/status', data: {'is_online': isOnline});
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Barber: Required Info Submit ──
+  Future<Map<String, dynamic>> submitBarberApplication({
+    required String name,
+    required String email,
+    required String phone,
+    required String idNumber,
+    required String location,
+    required int experience,
+  }) async {
+    try {
+      final response = await _dio.post('/barber/application', data: {
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'id_number': idNumber,
+        'location': location,
+        'experience': experience,
+      });
+      return response.data['data'] ?? response.data;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Barber: Application Status ──
+  Future<Map<String, dynamic>> getApplicationStatus({required String applicationId}) async {
+    try {
+      final response = await _dio.get('/barber/application/$applicationId');
+      return response.data['data'] ?? response.data;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Barber: Verify Application ──
+  Future<void> verifyBarberApplication({required String applicationId}) async {
+    try {
+      await _dio.post('/barber/application/$applicationId/verify');
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -211,9 +196,7 @@ class ApiService {
         return 'No internet connection.';
       case DioExceptionType.badResponse:
         final statusCode = e.response?.statusCode;
-        final message = e.response?.data?['message'] ??
-            e.response?.data?['error'] ??
-            'Something went wrong.';
+        final message = e.response?.data?['message'] ?? e.response?.data?['error'] ?? 'Something went wrong.';
         if (statusCode == 401) return 'Invalid email or password.';
         if (statusCode == 422) return message.toString();
         if (statusCode == 404) return 'User not found.';
@@ -226,7 +209,7 @@ class ApiService {
 }
 
 // ─────────────────────────────────────────
-//  Auth Interceptor (Token auto attach)
+//  Auth Interceptor
 // ─────────────────────────────────────────
 class _AuthInterceptor extends Interceptor {
   @override
@@ -240,10 +223,9 @@ class _AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    // 401 আসলে logout করে login screen এ পাঠাও
     if (err.response?.statusCode == 401) {
       StorageHelper.clearAll();
-      // Get.offAllNamed('/login'); // route setup থাকলে uncomment করো
+      // Get.offAllNamed('/login');
     }
     handler.next(err);
   }

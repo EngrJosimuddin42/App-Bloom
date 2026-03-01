@@ -1,9 +1,7 @@
 import 'package:app_bloom/views/screens/home_page/barber/barber_home_screen.dart';
-import 'package:app_bloom/views/screens/login_screen.dart';
-import 'package:app_bloom/views/screens/sign_up/sign_up_otp_screen.dart';
+import 'package:app_bloom/views/screens/home_page/barber/barber_required_Info_screen.dart';
 import 'package:app_bloom/views/screens/sign_up/sign_up_screen.dart';
 import 'package:app_bloom/views/screens/sign_up/sign_up_success_screen.dart';
-import 'package:app_bloom/views/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -37,7 +35,7 @@ class BarberCallApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
             useMaterial3: true,
           ),
-          home: const BarberHomeScreen(),
+          home: const BarberRequiredInfoScreen(),
         );
       },
     );
