@@ -33,7 +33,7 @@ class BarberCallApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
             useMaterial3: true,
           ),
-          home: const BarberRequiredInfoScreen(),
+          home: const BarberHomeScreen(),
         );
       },
     );

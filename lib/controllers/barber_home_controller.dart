@@ -4,6 +4,7 @@ import '../helpers/storage_helper.dart';
 import '../models/user_model.dart';
 import '../views/screens/home/barber/request/barber_request_screen.dart';
 import '../views/screens/home/barber/schedule/barber_schedule_screen.dart';
+import '../views/screens/home/barber/schedule/barber_start_navigation_screen.dart';
 
 // import '../services/api_service.dart';
 
@@ -221,8 +222,12 @@ class BarberHomeController extends GetxController {
     Get.to(() => const BarberRequestScreen(), transition: Transition.rightToLeft);
   }
 
+  // startNavigation method update করো:
   void startNavigation(Map<String, dynamic> appointment) {
-    // TODO: Launch maps
+    Get.to(
+          () => BarberStartNavigationScreen(appointment: appointment),
+      transition: Transition.rightToLeft,
+    );
   }
 
   void seeMoreSchedule() => goToSchedule();

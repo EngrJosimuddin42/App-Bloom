@@ -88,6 +88,7 @@ class BarberHomeScreen extends StatelessWidget {
                                         onNewBookingTap: () {
                                           // Get.to(() => BookingRequestScreen())
                                         },
+                                        onNavigate: controller.startNavigation,
                                       )),
                                       SizedBox(height: 16.h),
                                     ],

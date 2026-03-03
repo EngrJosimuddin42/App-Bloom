@@ -8,12 +8,14 @@ class OnlineContent extends StatelessWidget {
   final List<Map<String, dynamic>> schedule;
   final VoidCallback onSeeMore;
   final VoidCallback? onNewBookingTap;
+  final void Function(Map<String, dynamic>)? onNavigate;
 
   const OnlineContent({
     super.key,
     required this. schedule,
     required this.onSeeMore,
     this.onNewBookingTap,
+    this.onNavigate,
   });
 
   @override
@@ -30,7 +32,7 @@ class OnlineContent extends StatelessWidget {
         SizedBox(height: 12.h),
 
         // ── Appointment Cards ──
-        ...schedule.map((appt) => AppointmentCard.fromMap(appt)),
+        ...schedule.map((appt) => AppointmentCard.fromMap(appt,onNavigate: () => onNavigate?.call(appt))),
 
         // ── See More ──
         Align(

@@ -1,3 +1,4 @@
+import 'package:app_bloom/views/screens/home/barber/profile/view_earnings/barber_earning_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,7 +95,6 @@ class BarberProfileScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 10.h),
 
-                            // ✅ Fix: mainAxisSize.min + Flexible (Row overflow ঠিক)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
@@ -221,7 +221,10 @@ class BarberProfileScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: OutlinedButton.icon(
-                                onPressed: () {},
+                                onPressed: () => Get.to(
+                                      () => const BarberEarningScreen(),
+                                  transition: Transition.rightToLeft,
+                                ),
                                 icon: Icon(Icons.trending_up,
                                     size: 16.r, color: AppColors.textBlack),
                                 label: Text(

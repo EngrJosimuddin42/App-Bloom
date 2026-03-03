@@ -71,12 +71,7 @@ class _ApplicationIdCardState extends State<ApplicationIdCard> {
                   ),
                   GestureDetector(
                     onTap: () => Clipboard.setData(ClipboardData(text: widget.applicationId)),
-                    child: Image.asset(
-                      'assets/images/copy.png',
-                      width: 18.w,
-                      height: 18.w,
-                      color: AppColors.textSecondary,
-                    ),
+                    child: Icon(Icons.copy_outlined, size: 18.w, color: AppColors.textSecondary),
                   ),
                 ],
               ),

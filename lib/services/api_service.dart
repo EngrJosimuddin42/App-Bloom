@@ -213,20 +213,139 @@ class ApiService {
     }
   }
 
+  // ─────────────────────────────────────────
+  //  EARNINGS
+  // ─────────────────────────────────────────
+
+  // ── Barber: Get Earnings ──
+  // period: 'week' | 'month' | 'year'
+  Future<Map<String, dynamic>> getBarberEarnings({required String period}) async {
+    try {
+      final response = await _dio.get('/barber/earnings', queryParameters: {'period': period});
+      return response.data['data'] ?? response.data;
+      // Expected response:
+      // {
+      //   "total": "$867.50",
+      //   "change": "+18% from last week",
+      //   "date": "09/25",
+      //   "history": [
+      //     {
+      //       "name": "David Chen",
+      //       "service": "Men's Haircut",
+      //       "time": "Today 2:30 PM",
+      //       "amount": "$34.75",
+      //       "base": "$29.75",
+      //       "tip": "+$5.00 tip"
+      //     }
+      //   ]
+      // }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ─────────────────────────────────────────
+  //  PAYMENT METHODS
+  // ─────────────────────────────────────────
+
+  // ── Get Payment Methods ──
+  Future<List<Map<String, dynamic>>> getPaymentMethods() async {
+    try {
+      final response = await _dio.get('/barber/payment-methods');
+      final list = response.data['data'] as List? ?? [];
+      return list.map<Map<String, dynamic>>((e) => Map<String, dynamic>.from(e)).toList();
+      // Expected response:
+      // [
+      //   {
+      //     "id": "pm_001",
+      //     "type": "bank",         // 'bank' | 'card'
+      //     "title": "Bank Account",
+      //     "subtitle": "Brac Bank",
+      //     "last4": "4245",
+      //     "is_primary": true
+      //   }
+      // ]
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Set Primary Payment Method ──
+  Future<void> setPrimaryPaymentMethod({required String methodId}) async {
+    try {
+      await _dio.post('/barber/payment-methods/$methodId/primary');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Delete Payment Method ──
+  Future<void> deletePaymentMethod({required String methodId}) async {
+    try {
+      await _dio.delete('/barber/payment-methods/$methodId');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Add Bank Account ──
+  Future<Map<String, dynamic>> addBankAccount({
+    required String accountNumber,
+    required String bankName,
+    required String accountType, // 'checking' | 'savings'
+    required String billingZip,
+  }) async {
+    try {
+      final response = await _dio.post('/barber/payment-methods/bank', data: {
+        'account_number': accountNumber,
+        'bank_name': bankName,
+        'account_type': accountType,
+        'billing_zip': billingZip,
+      });
+      return response.data['data'] ?? response.data;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Add Debit Card ──
+  Future<Map<String, dynamic>> addDebitCard({
+    required String cardNumber,
+    required String expiryDate,
+    required String cvv,
+    required String billingZip,
+  }) async {
+    try {
+      final response = await _dio.post('/barber/payment-methods/card', data: {
+        'card_number': cardNumber,
+        'expiry_date': expiryDate,
+        'cvv': cvv,
+        'billing_zip': billingZip,
+      });
+      return response.data['data'] ?? response.data;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ─────────────────────────────────────────
+  //  PROFILE
+  // ─────────────────────────────────────────
+
   // ── Profile: Get Profile ──
   Future<UserModel> getProfile() async {
     try {
       final response = await _dio.get('/user/profile');
       final data = response.data['data'] ?? response.data;
       final user = UserModel.fromJson(data);
-      StorageHelper.saveUser(user); // local update
+      StorageHelper.saveUser(user);
       return user;
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-// ── Profile: Update Profile ──
+  // ── Profile: Update Profile ──
   Future<UserModel> updateProfile({
     required String firstName,
     required String lastName,
@@ -244,14 +363,14 @@ class ApiService {
       });
       final data = response.data['data'] ?? response.data;
       final user = UserModel.fromJson(data);
-      StorageHelper.saveUser(user); // local update
+      StorageHelper.saveUser(user);
       return user;
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-// ── Profile: Change Password ──
+  // ── Profile: Change Password ──
   Future<void> changePassword({
     required String currentPassword,
     required String newPassword,
@@ -268,7 +387,7 @@ class ApiService {
     }
   }
 
-// ── Profile: Upload Avatar ──
+  // ── Profile: Upload Avatar ──
   Future<String> uploadAvatar({required String filePath}) async {
     try {
       final formData = FormData.fromMap({

@@ -6,8 +6,8 @@ class UserModel {
   final String? phone;
   final String? avatar;
   final String token;
-  final String role; // 'customer' or 'barber'
-  final String? applicationStatus; // 'pending' | 'verified' | 'rejected'
+  final String role;
+  final String? applicationStatus;
 
   UserModel({
     required this.id,
