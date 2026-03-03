@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../controllers/forgot_password_controller.dart';
@@ -16,10 +17,28 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ForgotPasswordController());
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: GetBuilder<ForgotPasswordController>(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.backgroundBlack1,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        child: Scaffold(
+            backgroundColor: AppColors.backgroundBlack1,
+            body: SafeArea(
+                top: true,
+                child: Column(
+                  children: [
+                  // ── Status bar extended area ──
+                  Container(
+                  height: 10.h,
+                  color: AppColors.backgroundBlack1,
+                ),
+
+                // ── Main Content ──
+                Expanded(
+                  child: ColoredBox(
+                    color: AppColors.background,
+                    child: GetBuilder<ForgotPasswordController>(
           builder: (_) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -111,6 +130,11 @@ class ForgotPasswordScreen extends StatelessWidget {
           },
         ),
       ),
+                ),
+            ],
+                ),
+            ),
+        ),
     );
   }
 }

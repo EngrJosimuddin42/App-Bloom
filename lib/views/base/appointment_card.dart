@@ -11,6 +11,7 @@ class AppointmentCard extends StatelessWidget {
   final String address;
   final String distance;
   final VoidCallback? onNavigate;
+  final Color borderColor;
 
   const AppointmentCard({
     super.key,
@@ -21,12 +22,14 @@ class AppointmentCard extends StatelessWidget {
     required this.address,
     required this.distance,
     this.onNavigate,
+    this.borderColor = AppColors.textBlack,
   });
 
   // Factory constructor
   factory AppointmentCard.fromMap(
       Map<String, dynamic> map, {
         VoidCallback? onNavigate,
+        Color borderColor = AppColors.textBlack,
       }) {
     return AppointmentCard(
       name:     map['name']     ?? '',
@@ -36,6 +39,7 @@ class AppointmentCard extends StatelessWidget {
       address:  map['address']  ?? '',
       distance: map['distance'] ?? '',
       onNavigate: onNavigate,
+      borderColor: borderColor,
     );
   }
 
@@ -45,7 +49,7 @@ class AppointmentCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        border: Border.all(color:AppColors.textBlack),
+        border: Border.all(color: borderColor),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(

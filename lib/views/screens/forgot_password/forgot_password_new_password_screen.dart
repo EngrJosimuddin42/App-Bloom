@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../controllers/forgot_password_controller.dart';
@@ -16,182 +17,209 @@ class ForgotPasswordNewPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ForgotPasswordController());
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: GetBuilder<ForgotPasswordController>(
-          builder: (_) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      MediaQuery.of(context).padding.bottom,
-                ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // ── Logo ──
-                      Image.asset(
-                        'assets/images/content_cut_outlined.png',
-                        height: 150,
-                        width: 150,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(height: 40.h),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: AppColors.backgroundBlack1,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundBlack1,
+        body: SafeArea(
+          top: true,
+          child: Column(
+            children: [
+              // ── Status bar extended area ──
+              Container(
+                height: 10.h,
+                color: AppColors.backgroundBlack1,
+              ),
 
-                      // ── Title ──
-                      Center(
-                        child: Text(
-                          'Create New Password',
-                          style: AppTextStyles.onboardingTitle.copyWith(
-                            color: AppColors.textBlack1,
+              // ── Main Content ──
+              Expanded(
+                child: ColoredBox(
+                  color: AppColors.background,
+                  child: GetBuilder<ForgotPasswordController>(
+                    builder: (_) {
+                      return SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: MediaQuery.of(context).size.height -
+                                MediaQuery.of(context).padding.top -
+                                MediaQuery.of(context).padding.bottom -
+                                10.h,
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Center(
-                        child: Text(
-                          'Provide new password',
-                          style: AppTextStyles.onboardingSubtitle,
-                        ),
-                      ),
-
-                      SizedBox(height: 18.h),
-
-                      // ── New Password ──
-                      CustomTextField(
-                        controller: controller.newPasswordController,
-                        hint: '* * * * * * * * *',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(12.w),
-                          child: Image.asset(
-                            'assets/images/key.png',
-                            width: 20.w,
-                            height: 20.w,
-                          ),
-                        ),
-                        obscureText: controller.obscureNew,
-                        label: 'New Password',
-                        suffixIcon: Obx(() => GestureDetector(
-                          onTap: controller.toggleObscureNew,
-                          child: Padding(
-                            padding: EdgeInsets.all(12.w),
-                            child: Image.asset(
-                              controller.obscureNew
-                                  ? 'assets/images/view-of.png'
-                                  : 'assets/images/view-on.png',
-                              width: 20.w,
-                              height: 20.w,
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                        ),
-                      ),
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      // ── Confirm Password ──
-                      CustomTextField(
-                        controller: controller.confirmPasswordController,
-                        hint: '* * * * * * * * *',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(12.w),
-                          child: Image.asset(
-                            'assets/images/key.png',
-                            width: 20.w,
-                            height: 20.w,
-                          ),
-                        ),
-                        obscureText: controller.obscureConfirm,
-                        label: 'Confirm Password',
-                        suffixIcon: Obx(() => GestureDetector(
-                          onTap: controller.toggleObscureConfirm,
-                          child: Padding(
-                            padding: EdgeInsets.all(12.w),
-                            child: Image.asset(
-                              controller.obscureConfirm
-                                  ? 'assets/images/view-of.png'
-                                  : 'assets/images/view-on.png',
-                              width: 20.w,
-                              height: 20.w,
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                        ),
-                      ),
-                      ),
-
-                      if (controller.passwordError != null) ...[
-                        SizedBox(height: 6.h),
-                        Text(
-                          controller.passwordError!,
-                          style: AppTextStyles.inputError,
-                        ),
-                      ],
-
-                      SizedBox(height: 24.h),
-
-                      // ── Password Requirements Box ──
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(16.w),
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceVariant1,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Password must contain:',
-                              style: AppTextStyles.bodyMedium.copyWith(
-                                color: AppColors.textBlack2,
-                              ),
-                            ),
-                            SizedBox(height: 10.h),
-                            ...controller.passwordRequirements.map(
-                                  (req) => Padding(
-                                padding: EdgeInsets.only(bottom: 6.h),
-                                child: PasswordRequirementRow(
-                                  met: req.met,
-                                  label: req.label,
+                          child: IntrinsicHeight(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // ── Logo ──
+                                Image.asset(
+                                  'assets/images/content_cut_outlined.png',
+                                  height: 150,
+                                  width: 150,
+                                  fit: BoxFit.contain,
                                 ),
-                              ),
+                                SizedBox(height: 40.h),
+
+                                // ── Title ──
+                                Center(
+                                  child: Text(
+                                    'Create New Password',
+                                    style:
+                                    AppTextStyles.onboardingTitle.copyWith(
+                                      color: AppColors.textBlack1,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                Center(
+                                  child: Text(
+                                    'Provide new password',
+                                    style: AppTextStyles.onboardingSubtitle,
+                                  ),
+                                ),
+
+                                SizedBox(height: 18.h),
+
+                                // ── New Password ──
+                                CustomTextField(
+                                  controller: controller.newPasswordController,
+                                  hint: '* * * * * * * * *',
+                                  prefixIcon: Padding(
+                                    padding: EdgeInsets.all(12.w),
+                                    child: Image.asset(
+                                      'assets/images/key.png',
+                                      width: 20.w,
+                                      height: 20.w,
+                                    ),
+                                  ),
+                                  obscureText: controller.obscureNew,
+                                  label: 'New Password',
+                                  suffixIcon: Obx(() => GestureDetector(
+                                    onTap: controller.toggleObscureNew,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(12.w),
+                                      child: Image.asset(
+                                        controller.obscureNew
+                                            ? 'assets/images/view-of.png'
+                                            : 'assets/images/view-on.png',
+                                        width: 20.w,
+                                        height: 20.w,
+                                        color: AppColors.textBlack,
+                                      ),
+                                    ),
+                                  )),
+                                ),
+
+                                SizedBox(height: 16.h),
+
+                                // ── Confirm Password ──
+                                CustomTextField(
+                                  controller:
+                                  controller.confirmPasswordController,
+                                  hint: '* * * * * * * * *',
+                                  prefixIcon: Padding(
+                                    padding: EdgeInsets.all(12.w),
+                                    child: Image.asset(
+                                      'assets/images/key.png',
+                                      width: 20.w,
+                                      height: 20.w,
+                                    ),
+                                  ),
+                                  obscureText: controller.obscureConfirm,
+                                  label: 'Confirm Password',
+                                  suffixIcon: Obx(() => GestureDetector(
+                                    onTap: controller.toggleObscureConfirm,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(12.w),
+                                      child: Image.asset(
+                                        controller.obscureConfirm
+                                            ? 'assets/images/view-of.png'
+                                            : 'assets/images/view-on.png',
+                                        width: 20.w,
+                                        height: 20.w,
+                                        color: AppColors.textBlack,
+                                      ),
+                                    ),
+                                  )),
+                                ),
+
+                                if (controller.passwordError != null) ...[
+                                  SizedBox(height: 6.h),
+                                  Text(
+                                    controller.passwordError!,
+                                    style: AppTextStyles.inputError,
+                                  ),
+                                ],
+
+                                SizedBox(height: 24.h),
+
+                                // ── Password Requirements Box ──
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(16.w),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.surfaceVariant1,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Password must contain:',
+                                        style: AppTextStyles.bodyMedium
+                                            .copyWith(
+                                          color: AppColors.textBlack2,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      ...controller.passwordRequirements.map(
+                                            (req) => Padding(
+                                          padding:
+                                          EdgeInsets.only(bottom: 6.h),
+                                          child: PasswordRequirementRow(
+                                            met: req.met,
+                                            label: req.label,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                SizedBox(height: 24.h),
+
+                                // ── Reset Button ──
+                                CustomButton(
+                                  label: 'Reset Password',
+                                  isLoading: controller.isLoading,
+                                  isEnabled: true,
+                                  onTap: controller.resetPassword,
+                                ),
+
+                                const Spacer(),
+
+                                // ── Sign Up Link ──
+                                Center(
+                                  child: SignUpRow(
+                                    onTap: controller.goToSignUp,
+                                    signUpColor: AppColors.primary,
+                                  ),
+                                ),
+                                SizedBox(height: 24.h),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-
-                      SizedBox(height: 24.h),
-
-                      // ── Reset Button ──
-                      CustomButton(
-                        label: 'Reset Password',
-                        isLoading: controller.isLoading,
-                        isEnabled: true,
-                        onTap: controller.resetPassword,
-                      ),
-
-                      const Spacer(),
-
-                      // ── Sign Up Link ──
-                      Center(
-                        child: SignUpRow(
-                          onTap: controller.goToSignUp,
-                          signUpColor: AppColors.primary,
-                        ),
-                      ),
-                      SizedBox(height: 24.h),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ),
-            );
-          },
+            ],
+          ),
         ),
       ),
     );

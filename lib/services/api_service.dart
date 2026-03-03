@@ -184,6 +184,103 @@ class ApiService {
     }
   }
 
+  // ── Barber: Get Requests ──
+  Future<List<Map<String, dynamic>>> getBarberRequests() async {
+    try {
+      final response = await _dio.get('/barber/requests');
+      final list = response.data['data'] as List? ?? [];
+      return list.map<Map<String, dynamic>>((e) => Map<String, dynamic>.from(e)).toList();
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Barber: Accept Request ──
+  Future<void> acceptRequest({required String requestId}) async {
+    try {
+      await _dio.post('/barber/requests/$requestId/accept');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Barber: Decline Request ──
+  Future<void> declineRequest({required String requestId}) async {
+    try {
+      await _dio.post('/barber/requests/$requestId/decline');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // ── Profile: Get Profile ──
+  Future<UserModel> getProfile() async {
+    try {
+      final response = await _dio.get('/user/profile');
+      final data = response.data['data'] ?? response.data;
+      final user = UserModel.fromJson(data);
+      StorageHelper.saveUser(user); // local update
+      return user;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+// ── Profile: Update Profile ──
+  Future<UserModel> updateProfile({
+    required String firstName,
+    required String lastName,
+    required String phone,
+    required String location,
+    required int experience,
+  }) async {
+    try {
+      final response = await _dio.put('/user/profile', data: {
+        'first_name': firstName,
+        'last_name': lastName,
+        'phone': phone,
+        'location': location,
+        'experience': experience,
+      });
+      final data = response.data['data'] ?? response.data;
+      final user = UserModel.fromJson(data);
+      StorageHelper.saveUser(user); // local update
+      return user;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+// ── Profile: Change Password ──
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    try {
+      await _dio.post('/user/change-password', data: {
+        'current_password': currentPassword,
+        'password': newPassword,
+        'password_confirmation': confirmPassword,
+      });
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+// ── Profile: Upload Avatar ──
+  Future<String> uploadAvatar({required String filePath}) async {
+    try {
+      final formData = FormData.fromMap({
+        'avatar': await MultipartFile.fromFile(filePath),
+      });
+      final response = await _dio.post('/user/avatar', data: formData);
+      return response.data['data']['avatar_url'];
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   // ─────────────────────────────────────────
   //  Error Handler
   // ─────────────────────────────────────────

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../views/screens/home_page/barber/application_id_card.dart';
-import '../views/screens/home_page/barber/verification_complete_dialog.dart';
+
+import '../views/screens/home/barber/profile_setup/application_id_card.dart';
+import '../views/screens/home/barber/profile_setup/verification_complete_dialog.dart';
+
 
 // TODO: uncomment for production
 // import '../services/api_service.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../themes/app_colors.dart';
-import '../../../../themes/app_text_styles.dart';
-import '../../../base/custom_button.dart';
+import '../../../../../themes/app_colors.dart';
+import '../../../../../themes/app_text_styles.dart';
+import '../../../../base/custom_button.dart';
 
 class ApplicationIdCard extends StatefulWidget {
   final String applicationId;

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../controllers/barber_required_info_controller.dart';
-import '../../../../themes/app_colors.dart';
-import '../../../../themes/app_text_styles.dart';
-import '../../../base/counter_field.dart';
-import '../../../base/custom_button.dart';
-import '../../../base/custom_text_field.dart';
-import '../../../base/disabled_feature_card.dart';
-import '../../../base/photo_grid.dart';
-import '../../../base/upload_box.dart';
+import '../../../../../controllers/barber_required_info_controller.dart';
+import '../../../../../themes/app_colors.dart';
+import '../../../../../themes/app_text_styles.dart';
+import '../../../../base/counter_field.dart';
+import '../../../../base/custom_button.dart';
+import '../../../../base/custom_text_field.dart';
+import '../../../../base/disabled_feature_card.dart';
+import '../../../../base/photo_grid.dart';
+import '../../../../base/upload_box.dart';
 
 class BarberRequiredInfoScreen extends StatelessWidget {
   const BarberRequiredInfoScreen({super.key});
@@ -18,9 +19,28 @@ class BarberRequiredInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(BarberRequiredInfoController());
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.backgroundBlack1,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        child: Scaffold(
+            backgroundColor: AppColors.backgroundBlack1,
+            body: SafeArea(
+                top: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  // ── Status bar extended area ──
+                  Container(
+                  height: 10.h,
+                  color: AppColors.backgroundBlack1,
+                ),
+
+                // ── Main Content ──
+                Expanded(
+                  child: ColoredBox(
+                    color: AppColors.background,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -195,6 +215,11 @@ class BarberRequiredInfoScreen extends StatelessWidget {
           ],
         ),
       ),
+                ),
+          ],
+        ),
+    ),
+        ),
     );
   }
 

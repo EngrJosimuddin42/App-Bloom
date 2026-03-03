@@ -1,7 +1,5 @@
-import 'package:app_bloom/views/screens/home_page/barber/barber_home_screen.dart';
-import 'package:app_bloom/views/screens/home_page/barber/barber_required_Info_screen.dart';
-import 'package:app_bloom/views/screens/sign_up/sign_up_screen.dart';
-import 'package:app_bloom/views/screens/sign_up/sign_up_success_screen.dart';
+import 'package:app_bloom/views/screens/home/barber/barber_home_screen.dart';
+import 'package:app_bloom/views/screens/home/barber/profile_setup/barber_required_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../controllers/barber_home_controller.dart';
+import '../../../../themes/app_colors.dart';
 import '../../../base/Barber_top_header.dart';
 import '../../../base/barber_bottom_nav.dart';
+import '../../../base/barber_nav_helper.dart';
 import '../../../base/earnings_card.dart';
 import '../../../base/offline_banner.dart';
 import '../../../base/online_content.dart';
@@ -18,20 +20,39 @@ class BarberHomeScreen extends StatelessWidget {
     final controller = Get.put(BarberHomeController());
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: GetBuilder<BarberHomeController>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.backgroundBlack1,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        child: Scaffold(
+            backgroundColor: AppColors.backgroundBlack1,
+            body: SafeArea(
+              top: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                // ── Status bar extended area ──
+                Container(
+                height: 10.h,
+                color: AppColors.backgroundBlack1,
+              ),
+
+              // ── Main Content ──
+              Expanded(
+        child:  GetBuilder<BarberHomeController>(
           builder: (_) {
             return Column(
               children: [
                 // ── Top Header ──
-                Obx(() => BarberTopHeader(
+                ColoredBox(
+                  color: Colors.white,
+                  child: Obx(() => BarberTopHeader(
                   userName: controller.userName,
                   isOnline: controller.isOnline,
                   onToggle: controller.toggleOnlineStatus,
                   onNotificationTap: controller.goToNotifications,
                 )),
+            ),
 
                 // ── White Background Section ──
                 Expanded(
@@ -62,7 +83,7 @@ class BarberHomeScreen extends StatelessWidget {
                                         onGoOnline: () => controller.toggleOnlineStatus(true),
                                       )
                                           : OnlineContent(
-                                        schedule: controller.todaySchedule,
+                                        schedule: controller.previewSchedule,
                                         onSeeMore: controller.seeMoreSchedule,
                                         onNewBookingTap: () {
                                           // Get.to(() => BookingRequestScreen())
@@ -80,9 +101,7 @@ class BarberHomeScreen extends StatelessWidget {
                         // ── Bottom Nav ──
                         BarberBottomNav(
                           currentIndex: 0,
-                          onTap: (index) {
-                            // navigate based on index
-                          },
+                          onTap: (index) => BarberNavHelper.onTap(index, 0),
                         ),
 
                         // ── Safe area ──
@@ -99,6 +118,10 @@ class BarberHomeScreen extends StatelessWidget {
           },
         ),
       ),
+              ],
+            ),
+        ),
+    ),
     );
   }
 }

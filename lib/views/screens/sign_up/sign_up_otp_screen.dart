@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../controllers/sign_up_controller.dart';
@@ -28,9 +29,27 @@ class _SignUpOtpScreenState extends State<SignUpOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.backgroundBlack1,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        child: Scaffold(
+            backgroundColor: AppColors.backgroundBlack1,
+            body: SafeArea(
+                top: true,
+                child: Column(
+                  children: [
+                  // ── Status bar extended area ──
+                  Container(
+                  height: 10.h,
+                  color: AppColors.backgroundBlack1,
+                ),
+
+                // ── Main Content ──
+                Expanded(
+                  child: ColoredBox(
+                    color: AppColors.background,
         child: GetBuilder<SignUpController>(
           builder: (_) {
             return SingleChildScrollView(
@@ -228,6 +247,11 @@ class _SignUpOtpScreenState extends State<SignUpOtpScreen> {
           },
         ),
       ),
+                ),
+              ],
+                ),
+            ),
+        ),
     );
   }
 }

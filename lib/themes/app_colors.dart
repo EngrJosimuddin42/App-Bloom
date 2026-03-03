@@ -14,9 +14,14 @@ class AppColors {
   static const Color secondaryDark  = Color(0xFF008F6B);
 
   // Background Colors
-  static const Color background     = Color(0xFFFFFFFF); // White
+  static const Color background     = Color(0xFFFFFFFF);
+  static const Color backgroundBlue = Color(0xFF007AFF);
   static const Color backgroundGrey = Color(0xFFD9D9D9);
+  static const Color backgroundOrange = Color(0xFFFF9500);
+  static const Color backgroundRed = Color(0x29FF0000);
   static const Color backgroundBlack = Color(0xFF000000);
+  static const Color backgroundGreen = Color(0x2900FF88);
+  static const Color backgroundBlack1 = Color(0xFF0F0F0F);
   static const Color backgroundAss = Color(0x853C3C3C);
 
   // Surface / Card
@@ -37,6 +42,8 @@ class AppColors {
 
   // Border / Divider
   static const Color border         = Color(0xFF5C5C5C);
+  static const Color borderRed         = Color(0xFFFF3B30);
+  static const Color border1         = Color(0xFFE1BC54);
   static const Color divider        = Color(0xFFF3F4F6);
 
   // Status Colors
