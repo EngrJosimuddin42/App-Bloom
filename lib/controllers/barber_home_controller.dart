@@ -37,6 +37,8 @@ class BarberHomeController extends GetxController {
   final _editIdNumber   = ''.obs;
   final _editLocation   = ''.obs;
   final _editExperience = 0.obs;
+  final _notificationEnabled = true.obs;
+
 
   // ── Dashboard Getters ──
   bool get isOnline           => _isOnline.value;
@@ -69,6 +71,8 @@ class BarberHomeController extends GetxController {
   String get editIdNumber   => _editIdNumber.value;
   String get editLocation   => _editLocation.value;
   int    get editExperience => _editExperience.value;
+  bool get notificationEnabled => _notificationEnabled.value;
+
 
   @override
   void onInit() {
@@ -235,6 +239,12 @@ class BarberHomeController extends GetxController {
   void incrementExperience() {
     _editExperience.value++;
     update();
+  }
+
+  void toggleNotification(bool value) {
+    _notificationEnabled.value = value;
+    update();
+    // PRODUCTION: await _api.updateNotificationSetting(value);
   }
 
   void decrementExperience() {

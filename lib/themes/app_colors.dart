@@ -12,17 +12,23 @@ class AppColors {
   static const Color secondary      = Color(0xFF34C759);
   static const Color secondaryLight = Color(0xFF4DDBBA);
   static const Color secondaryDark  = Color(0xFF008F6B);
+  static const Color purple  = Color(0xFFAF52DE);
 
   // Background Colors
   static const Color background     = Color(0xFFFFFFFF);
   static const Color backgroundBlue = Color(0xFF007AFF);
   static const Color backgroundGrey = Color(0xFFD9D9D9);
   static const Color backgroundOrange = Color(0xFFFF9500);
+  static const Color backgroundOrange1 = Color(0x33FFA64C);
   static const Color backgroundRed = Color(0x29FF0000);
+  static const Color backgroundRed1 = Color(0x1FFF0000);
   static const Color backgroundBlack = Color(0xFF000000);
   static const Color backgroundGreen = Color(0x2900FF88);
+  static const Color backgroundGreen1 = Color(0x3376FF4C);
   static const Color backgroundBlack1 = Color(0xFF0F0F0F);
   static const Color backgroundAss = Color(0x853C3C3C);
+  static const Color backgroundPurple = Color(0x338E4CFF);
+  static const Color background1 = Color(0x334C7FFF);
 
   // Surface / Card
   static const Color surface        = Color(0xFFFFFFFF);
