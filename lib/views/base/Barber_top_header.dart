@@ -92,8 +92,8 @@ class BarberTopHeader extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 4.r,
-                  backgroundColor:
-                  AppColors.textSecondary                ),
+                  backgroundColor: isOnline ? Colors.green : Colors.grey,
+                ),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
