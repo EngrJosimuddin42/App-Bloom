@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../helpers/storage_helper.dart';
 import '../models/user_model.dart';
+import '../views/screens/home/barber/profile/reviews/barber_reviews_screen.dart';
 import '../views/screens/home/barber/profile_setup/verification_complete_dialog.dart';
 import '../views/screens/home/barber/request/barber_request_screen.dart';
 import '../views/screens/home/barber/schedule/barber_schedule_screen.dart';
@@ -39,6 +40,13 @@ class BarberHomeController extends GetxController {
   final _editLocation   = ''.obs;
   final _editExperience = 0.obs;
   final _notificationEnabled = true.obs;
+
+  // ── Reviews State ──
+  final _reviews         = <Map<String, dynamic>>[].obs;
+  final _starCounts      = <int, int>{}.obs;
+  final _overallRating   = 0.0.obs;
+  final _totalReviews    = 0.obs;
+  final _positivePercent = 0.obs;
 
 
   // ── Navigation State ──
@@ -85,6 +93,14 @@ class BarberHomeController extends GetxController {
   String get editLocation   => _editLocation.value;
   int    get editExperience => _editExperience.value;
   bool get notificationEnabled => _notificationEnabled.value;
+
+
+  // ── Reviews Getters ──
+  List<Map<String, dynamic>> get reviews         => _reviews;
+  Map<int, int>              get starCounts      => _starCounts;
+  double                     get overallRating   => _overallRating.value;
+  int                        get totalReviews    => _totalReviews.value;
+  int                        get positivePercent => _positivePercent.value;
 
 
   // ── Navigation Getters ──
@@ -189,6 +205,29 @@ class BarberHomeController extends GetxController {
       _editLocation.value   = 'Mohakhali, Dhaka, Bangladesh 1212';
       _editExperience.value = 1;
 
+
+      // ── DEV: Mock Reviews ──
+      _overallRating.value   = 4.9;
+      _totalReviews.value    = 247;
+      _positivePercent.value = 98;
+      _starCounts.value      = {5: 215, 4: 25, 3: 5, 2: 2, 1: 0};
+      _reviews.value = [
+        {
+          'name': 'David Chen',
+          'avatar': 'https://i.pravatar.cc/150?img=8',
+          'service': "Men's Haircut",
+          'date': '2 days ago',
+          'userRating': 3,
+        },
+        {
+          'name': 'Michael Scott',
+          'avatar': 'https://i.pravatar.cc/150?img=14',
+          'service': 'Hair + Beard',
+          'date': '5 days ago',
+          'userRating': 4,
+        },
+      ];
+
       // ── PRODUCTION: uncomment ──
       // final dash = await _api.getBarberDashboard();
       // _earnings.value       = dash['earnings'] ?? '\$0';
@@ -263,6 +302,16 @@ class BarberHomeController extends GetxController {
     update();
     // PRODUCTION: await _api.deleteGalleryImage(imageId);
   }
+
+  // ── Reviews ──
+  void updateReviewRating(int index, int stars) {
+    final updated = List<Map<String, dynamic>>.from(_reviews);
+    updated[index] = {...updated[index], 'userRating': stars};
+    _reviews.value = updated;
+    update();
+    // PRODUCTION: await _api.submitReviewRating(reviewId: _reviews[index]['id'], stars: stars);
+  }
+
 
   // ── Edit Profile Actions ──
   void incrementExperience() {
@@ -362,7 +411,7 @@ class BarberHomeController extends GetxController {
       Get.to(() => const BarberEarningScreen(), transition: Transition.rightToLeft);
 
   void goToReviews() {
-    // Get.to(() => const BarberReviewsScreen(), transition: Transition.rightToLeft);
+    Get.to(() => const BarberReviewsScreen(), transition: Transition.rightToLeft);
   }
 
   void seeMoreSchedule() => goToSchedule();

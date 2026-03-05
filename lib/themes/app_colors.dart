@@ -15,6 +15,7 @@ class AppColors {
   static const Color secondaryDark  = Color(0xFF008F6B);
   static const Color purple  = Color(0xFFAF52DE);
   static const Color purple1  = Color(0xFF9810FA);
+  static const Color orange  = Color(0xFFFE9A00);
 
   // Background Colors
   static const Color background     = Color(0xFFFFFFFF);
@@ -31,6 +32,8 @@ class AppColors {
   static const Color backgroundGreen1 = Color(0x3376FF4C);
   static const Color backgroundBlack1 = Color(0xFF0F0F0F);
   static const Color backgroundAss = Color(0x853C3C3C);
+  static const Color backgroundAss1 = Color(0xFF0B0B0B);
+  static const Color backgroundAss2 = Color(0xFF818898);
   static const Color backgroundPurple = Color(0x338E4CFF);
   static const Color background1 = Color(0x334C7FFF);
 
@@ -48,6 +51,7 @@ class AppColors {
   static const Color textWhite      = Color(0xFFFFFFFF);
   static const Color textRed      = Color(0xFFFF7555);
   static const Color textOrange      = Color(0xFF7B3306);
+  static const Color textYellow      = Color(0xFFFFCC00);
   static const Color textOrange1      = Color(0xFFBB4D00);
   static const Color textOrange2      = Color(0x33FFCC00);
   static const Color textBlack  = Color(0xFF000000);
@@ -62,6 +66,8 @@ class AppColors {
   static const Color border1         = Color(0xFFE1BC54);
   static const Color divider        = Color(0xFFF3F4F6);
   static const Color border2         = Color(0xFFE9E1D7);
+  static const Color border3         = Color(0xFF6A7282);
+  static const Color border4         = Color(0xFF4A5565);
 
   // Status Colors
   static const Color success        = Color(0xFF22C55E);
