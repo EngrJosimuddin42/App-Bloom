@@ -61,12 +61,12 @@ class BarberRequiredInfoScreen extends StatelessWidget {
                     // ── Name ──
                     CustomTextField(
                       controller: controller.nameController,
-                      hint: 'Josimuddin',
+                      hint: 'your@name',
                       label: 'Name',
                       fillColor: AppColors.cardColor,
                       borderColor: AppColors.cardColor,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.all(12.w),
+                        padding: EdgeInsets.all(10.w),
                         child: Image.asset('assets/images/user.png',
                           width: 24.w, height: 24.w, color: AppColors.textBlack,
                         ),
@@ -77,13 +77,13 @@ class BarberRequiredInfoScreen extends StatelessWidget {
                     // ── Email ──
                     CustomTextField(
                       controller: controller.emailController,
-                      hint: 'josimcse@gmail.com',
+                      hint: 'your@email.com',
                       label: 'Email',
                       fillColor: AppColors.cardColor,
                       borderColor: AppColors.cardColor,
                       keyboardType: TextInputType.emailAddress,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.all(12.w),
+                        padding: EdgeInsets.all(10.w),
                         child: Image.asset('assets/images/email_icon.png',
                           width: 24.w, height: 24.w,
                         ),
@@ -94,13 +94,13 @@ class BarberRequiredInfoScreen extends StatelessWidget {
                     // ── Phone ──
                     CustomTextField(
                       controller: controller.phoneController,
-                      hint: '+880 | 0173 866 43 82',
+                      hint: 'your@phone number',
                       label: 'Phone',
                       keyboardType: TextInputType.phone,
                       fillColor: AppColors.cardColor,
                       borderColor: AppColors.cardColor,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.all(12.w),
+                        padding: EdgeInsets.all(10.w),
                         child: Image.asset('assets/images/phone.png',
                           width: 24.w, height: 24.w, color: AppColors.textBlack,
                         ),
@@ -111,13 +111,13 @@ class BarberRequiredInfoScreen extends StatelessWidget {
                     // ── ID Number ──
                     CustomTextField(
                       controller: controller.idController,
-                      hint: '000 000 000',
+                      hint: 'your@id number',
                       label: 'ID Number',
                       fillColor: AppColors.cardColor,
                       borderColor: AppColors.cardColor,
                       keyboardType: TextInputType.number,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.all(12.w),
+                        padding: EdgeInsets.all(10.w),
                         child: Image.asset('assets/images/id_card.png',
                           width: 24.w, height: 24.w, color: AppColors.textBlack,
                         ),
@@ -128,18 +128,18 @@ class BarberRequiredInfoScreen extends StatelessWidget {
                     // ── Location ──
                     CustomTextField(
                       controller: controller.locationController,
-                      hint: 'Mohakhali, Dhaka, Bangladesh 1212',
+                      hint: 'your@address',
                       label: 'Location',
                       fillColor: AppColors.cardColor,
                       borderColor: AppColors.cardColor,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.all(12.w),
+                        padding: EdgeInsets.all(10.w),
                         child: Image.asset('assets/images/location1.png',
                           width: 24.w, height: 24.w, color: AppColors.textBlack,
                         ),
                       ),
                       suffixIcon: Padding(
-                        padding: EdgeInsets.all(12.w),
+                        padding: EdgeInsets.all(10.w),
                         child: Image.asset('assets/images/gps-off.png',
                           width: 24.w, height: 24.w, color: AppColors.textBlack,
                         ),

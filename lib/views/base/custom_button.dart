@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
   final double? height;
   final double? borderRadius;
+  final Gradient? gradient;
 
   const CustomButton({
     super.key,
@@ -19,6 +20,7 @@ class CustomButton extends StatelessWidget {
     this.isEnabled = true,
     this.height,
     this.borderRadius,
+    this.gradient,
   });
 
   @override
@@ -34,7 +36,9 @@ class CustomButton extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             color: isEnabled ? null : AppColors.textSecondary,
-            gradient: isEnabled ? AppColors.splashGradient : null,
+            gradient: isEnabled
+                ? (gradient ?? AppColors.splashGradient)
+                : null,
             borderRadius: BorderRadius.circular(radius),
           ),
           child: InkWell(

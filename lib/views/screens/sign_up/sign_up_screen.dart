@@ -7,6 +7,7 @@ import '../../../themes/app_colors.dart';
 import '../../../themes/app_text_styles.dart';
 import '../../base/custom_button.dart';
 import '../../base/custom_text_field.dart';
+import '../../base/password_field.dart';
 import '../../base/role_toggle.dart';
 import '../../base/sign_up_row.dart';
 
@@ -135,67 +136,19 @@ class SignUpScreen extends StatelessWidget {
                       SizedBox(height: 14.h),
 
                       // ── Password ──
-                      CustomTextField(
+                      PasswordField(
                         controller: controller.passwordController,
-                        hint: '* * * * * * * * *',
                         label: 'Password',
-                        obscureText: controller.obscurePassword,
                         errorText: controller.passwordError,
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(12.w),
-                          child: Image.asset(
-                            'assets/images/key.png',
-                            width: 20.w,
-                            height: 20.w,
-                          ),
-                        ),
-                        suffixIcon: Obx(() => GestureDetector(
-                          onTap: controller.toggleObscurePassword,
-                          child: Padding(
-                            padding: EdgeInsets.all(12.w),
-                            child: Image.asset(
-                              controller.obscurePassword
-                                  ? 'assets/images/view-of.png'
-                                  : 'assets/images/view-on.png',
-                              width: 20.w,
-                              height: 20.w,
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                        )),
                       ),
 
                       SizedBox(height: 14.h),
 
                       // ── Confirm Password ──
-                      CustomTextField(
+                      PasswordField(
                         controller: controller.confirmPasswordController,
-                        hint: '* * * * * * * * *',
                         label: 'Confirm Password',
-                        obscureText: controller.obscureConfirm,
                         errorText: controller.confirmError,
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(12.w),
-                          child: Image.asset(
-                            'assets/images/key.png',
-                            width: 20.w,
-                            height: 20.w,
-                          ),
-                        ),
-                        suffixIcon: Obx(() => GestureDetector(
-                          onTap: controller.toggleObscureConfirm,
-                          child: Padding(
-                            padding: EdgeInsets.all(12.w),
-                            child: Image.asset(
-                              controller.obscureConfirm
-                                  ? 'assets/images/view-of.png'
-                                  : 'assets/images/view-on.png',
-                              width: 20.w,
-                              height: 20.w,
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                        )),
                       ),
 
                       SizedBox(height: 28.h),

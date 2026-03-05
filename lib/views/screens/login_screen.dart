@@ -7,6 +7,7 @@ import '../../themes/app_colors.dart';
 import '../../themes/app_text_styles.dart';
 import '../base/custom_button.dart';
 import '../base/custom_text_field.dart';
+import '../base/password_field.dart';
 import '../base/sign_up_row.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -101,35 +102,10 @@ class LoginScreen extends StatelessWidget {
                                 SizedBox(height: 20.h),
 
                                 // ── Password Field ──
-                                CustomTextField(
+                                PasswordField(
                                   controller: controller.passwordController,
-                                  hint: '* * * * * * * * *',
-                                  prefixIcon: Padding(
-                                    padding: EdgeInsets.all(12.w),
-                                    child: Image.asset(
-                                      'assets/images/key.png',
-                                      width: 20.w,
-                                      height: 20.w,
-                                    ),
-                                  ),
-                                  obscureText: controller.obscurePassword,
-                                  errorText: controller.passwordError,
                                   label: 'Password',
-                                  suffixIcon: GestureDetector(
-                                    onTap:
-                                    controller.togglePasswordVisibility,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(12.w),
-                                      child: Image.asset(
-                                        controller.obscurePassword
-                                            ? 'assets/images/view-of.png'
-                                            : 'assets/images/view-on.png',
-                                        width: 20.w,
-                                        height: 20.w,
-                                        color: AppColors.textBlack,
-                                      ),
-                                    ),
-                                  ),
+                                  errorText: controller.passwordError,
                                 ),
 
                                 // ── Forgot Password ──

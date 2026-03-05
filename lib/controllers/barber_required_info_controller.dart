@@ -1,27 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../controllers/barber_home_controller.dart';
 import '../views/screens/home/barber/profile_setup/application_id_card.dart';
-import '../views/screens/home/barber/profile_setup/verification_complete_dialog.dart';
-
-
-// TODO: uncomment for production
-// import '../services/api_service.dart';
-
-// ════════════════════════════════════════════════════════════
-//  ⚠️  DEVELOPMENT MODE — mock data active
-//  Before production:
-//   • uncomment ApiService calls
-//   • remove mock delays & hardcoded applicationId
-// ════════════════════════════════════════════════════════════
 
 class BarberRequiredInfoController extends GetxController {
   // ── Form Controllers ──
-  final nameController     = TextEditingController();
-  final emailController    = TextEditingController();
-  final phoneController    = TextEditingController();
-  final idController       = TextEditingController();
-  final locationController = TextEditingController();
+  final nameController     = TextEditingController(text: 'Josimuddin (Dev)');
+  final emailController    = TextEditingController(text: 'josimcse@gmail.com');
+  final phoneController    = TextEditingController(text: '+8801738664382');
+  final idController       = TextEditingController(text: '1234567890');
+  final locationController = TextEditingController(text: 'Mohakhali, Dhaka, Bangladesh');
 
   // ── Loading ──
   final _isLoading = false.obs;
@@ -40,10 +28,7 @@ class BarberRequiredInfoController extends GetxController {
   final workPhotos   = <String>[].obs;
   final certificates = <String>[].obs;
 
-  // TODO [DEV]: image_picker integrate korte hobe
   void pickWorkPhotos() {}
-
-  // TODO [DEV]: file_picker integrate korte hobe
   void pickCertificates() {}
 
   // ── Submit ──
@@ -54,19 +39,18 @@ class BarberRequiredInfoController extends GetxController {
 
     try {
       // ── DEV MODE: mock response ──
-      // TODO [DEV]: niche er block ta remove kore PRODUCTION block uncomment korte hobe
       await Future.delayed(const Duration(milliseconds: 500));
       const applicationId = 'TH-2025-847';
 
+      // ── BarberHomeController
+      final homeController = Get.isRegistered<BarberHomeController>()
+          ? Get.find<BarberHomeController>()
+          : Get.put(BarberHomeController());
+
+      homeController.setApplicationId(applicationId);
+
       Get.to(
-            () => ApplicationIdCard(
-          applicationId: applicationId,
-          onVerify: () {
-            VerificationCompleteDialog.show(
-              onOk: () => Get.back(),
-            );
-          },
-        ),
+            () => const ApplicationIdCard(),
         transition: Transition.rightToLeft,
       );
 
@@ -81,10 +65,8 @@ class BarberRequiredInfoController extends GetxController {
       //   experience: experience,
       // );
       // final applicationId = result['application_id'];
-      // Get.to(() => ApplicationIdCard(
-      //   applicationId: applicationId,
-      //   onVerify: () => VerificationCompleteDialog.show(onOk: () => Get.back()),
-      // ));
+      // Get.find<BarberHomeController>().setApplicationId(applicationId);
+      // Get.to(() => const ApplicationIdCard(), transition: Transition.rightToLeft);
 
     } catch (e) {
       Get.snackbar('Error', e.toString(),

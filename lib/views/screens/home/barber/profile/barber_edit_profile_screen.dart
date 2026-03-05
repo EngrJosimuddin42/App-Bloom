@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../../../controllers/barber_home_controller.dart';
 import '../../../../../themes/app_colors.dart';
 import '../../../../../themes/app_text_styles.dart';
+import '../../../../base/custom_button.dart';
 import '../../../../base/custom_text_field.dart';
 import '../../../../base/counter_field.dart';
 
@@ -226,29 +227,14 @@ class _BarberEditProfileScreenState extends State<BarberEditProfileScreen> {
                               SizedBox(height: 130.h),
 
                               // ── Save Button ──
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () => _c.saveProfile(
-                                    name:     _nameController.text,
-                                    email:    _emailController.text,
-                                    phone:    _phoneController.text,
-                                    idNumber: _idController.text,
-                                    location: _locationController.text,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.backgroundBlack,
-                                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                  ),
-                                  child: Text('Save Changes',
-                                      style: TextStyle(
-                                        color: AppColors.textWhite,
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w600,
-                                      )),
+                              CustomButton(
+                                label: 'Save Changes',
+                                onTap: () => _c.saveProfile(
+                                  name:     _nameController.text,
+                                  email:    _emailController.text,
+                                  phone:    _phoneController.text,
+                                  idNumber: _idController.text,
+                                  location: _locationController.text,
                                 ),
                               ),
                               SizedBox(height: 24.h),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../helpers/storage_helper.dart';
 import '../models/user_model.dart';
+import '../views/screens/home/barber/profile_setup/verification_complete_dialog.dart';
 import '../views/screens/home/barber/request/barber_request_screen.dart';
 import '../views/screens/home/barber/schedule/barber_schedule_screen.dart';
 import '../views/screens/home/barber/schedule/barber_start_navigation_screen.dart';
@@ -40,6 +41,18 @@ class BarberHomeController extends GetxController {
   final _notificationEnabled = true.obs;
 
 
+  // ── Navigation State ──
+  final _navAppointment   = <String, dynamic>{}.obs;
+  final _navEta           = '5 minutes'.obs;
+  final _navDistance      = '1.2 km'.obs;
+  final _navDirection     = 'Turn right on Main Street'.obs;
+  final _navDirectionNote = 'In 200 meter'.obs;
+  final _navBarberLat     = 23.8103.obs;
+  final _navBarberLng     = 90.4125.obs;
+  final _navCustomerLat   = 23.8203.obs;
+  final _navCustomerLng   = 90.4225.obs;
+
+
   // ── Dashboard Getters ──
   bool get isOnline           => _isOnline.value;
   bool get isLoading          => _isLoading.value;
@@ -74,6 +87,19 @@ class BarberHomeController extends GetxController {
   bool get notificationEnabled => _notificationEnabled.value;
 
 
+  // ── Navigation Getters ──
+  Map<String, dynamic> get navAppointment   => _navAppointment;
+  String get navEta                         => _navEta.value;
+  String get navDistance                    => _navDistance.value;
+  String get navDirection                   => _navDirection.value;
+  String get navDirectionNote               => _navDirectionNote.value;
+  double get navBarberLat                   => _navBarberLat.value;
+  double get navBarberLng                   => _navBarberLng.value;
+  double get navCustomerLat                 => _navCustomerLat.value;
+  double get navCustomerLng                 => _navCustomerLng.value;
+
+
+
   @override
   void onInit() {
     super.onInit();
@@ -105,12 +131,15 @@ class BarberHomeController extends GetxController {
         {
           'name': 'David Chen', 'service': "Men's Haircut",
           'price': '\$35', 'time': '02:00 PM',
-          'address': '123 Main St. Apt 4B', 'distance': '1.2 km away',
+          'address': '123 Main St. Apt 4B', 'distance': '1.2 km',
+          'instructions': 'Please ring doorbell twice. Customer has allergies, use hypoallergenic products.',
         },
         {
           'name': 'Michael Scott', 'service': 'Hair + Beard',
           'price': '\$50', 'time': '3:30 PM',
-          'address': '56 Oak Ave, Suite 12', 'distance': '2.5 km away',
+          'address': '56 Oak Ave, Suite 12', 'distance': '2.5 km',
+          'instructions': 'Please ring doorbell twice. Customer has allergies, use hypoallergenic products.',
+
         },
       ];
 
@@ -272,7 +301,54 @@ class BarberHomeController extends GetxController {
     // PRODUCTION: await _api.updateProfile(...);
   }
 
-  // ── Navigation ──
+  // ── Navigation Actions ──
+  void startNavigation(Map<String, dynamic> appointment) {
+    // ── DEV: Mock navigation data ──
+    _navAppointment.value   = appointment;
+    _navEta.value           = '5 minutes';
+    _navDistance.value      = appointment['distance'] ?? '1.2 km';
+    _navDirection.value     = 'Turn right on Main Street';
+    _navDirectionNote.value = 'In 200 meter';
+    _navBarberLat.value     = 23.8103;
+    _navBarberLng.value     = 90.4125;
+    _navCustomerLat.value   = 23.8203;
+    _navCustomerLng.value   = 90.4225;
+
+    // ── PRODUCTION: uncomment ──
+    // final nav = await _api.getNavigationData(appointmentId: appointment['id']);
+    // _navAppointment.value   = appointment;
+    // _navEta.value           = nav['eta'] ?? '5 minutes';
+    // _navDistance.value      = nav['distance'] ?? '1.2 km';
+    // _navDirection.value     = nav['next_direction'] ?? '';
+    // _navDirectionNote.value = nav['direction_note'] ?? '';
+    // _navBarberLat.value     = nav['barber_lat'];
+    // _navBarberLng.value     = nav['barber_lng'];
+    // _navCustomerLat.value   = nav['customer_lat'];
+    // _navCustomerLng.value   = nav['customer_lng'];
+
+    Get.to(
+          () => const BarberStartNavigationScreen(),
+      transition: Transition.rightToLeft,
+    );
+  }
+
+  // ── Application State ──
+  final _applicationId = ''.obs;
+  String get applicationId => _applicationId.value;
+
+// ── applicationId set করার method ──
+  void setApplicationId(String id) {
+    _applicationId.value = id;
+    update();
+  }
+
+// ── Navigation ──
+  void goToVerify() {
+    VerificationCompleteDialog.show(
+      onOk: () => Get.back(),
+    );
+  }
+
   Future<void> goOnline() async => await toggleOnlineStatus(true);
   void goToNotifications() {}
 
@@ -288,10 +364,6 @@ class BarberHomeController extends GetxController {
   void goToReviews() {
     // Get.to(() => const BarberReviewsScreen(), transition: Transition.rightToLeft);
   }
-
-  void startNavigation(Map<String, dynamic> appointment) =>
-      Get.to(() => BarberStartNavigationScreen(appointment: appointment),
-          transition: Transition.rightToLeft);
 
   void seeMoreSchedule() => goToSchedule();
 }

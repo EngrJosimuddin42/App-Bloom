@@ -10,9 +10,11 @@ class AppColors {
 
   //  Secondary / Accent
   static const Color secondary      = Color(0xFF34C759);
+  static const Color secondary1      = Color(0x1F34C759);
   static const Color secondaryLight = Color(0xFF4DDBBA);
   static const Color secondaryDark  = Color(0xFF008F6B);
   static const Color purple  = Color(0xFFAF52DE);
+  static const Color purple1  = Color(0xFF9810FA);
 
   // Background Colors
   static const Color background     = Color(0xFFFFFFFF);
@@ -20,6 +22,8 @@ class AppColors {
   static const Color backgroundGrey = Color(0xFFD9D9D9);
   static const Color backgroundOrange = Color(0xFFFF9500);
   static const Color backgroundOrange1 = Color(0x33FFA64C);
+  static const Color backgroundOrange2 = Color(0xFFE17100);
+  static const Color backgroundOrange3 = Color(0xFFFEF3C6);
   static const Color backgroundRed = Color(0x29FF0000);
   static const Color backgroundRed1 = Color(0x1FFF0000);
   static const Color backgroundBlack = Color(0xFF000000);
@@ -42,15 +46,22 @@ class AppColors {
   static const Color textSecondary1  = Color(0xFF6A635C);
   static const Color textSecondary2  = Color(0xFFB3B3B3);
   static const Color textWhite      = Color(0xFFFFFFFF);
+  static const Color textRed      = Color(0xFFFF7555);
+  static const Color textOrange      = Color(0xFF7B3306);
+  static const Color textOrange1      = Color(0xFFBB4D00);
+  static const Color textOrange2      = Color(0x33FFCC00);
   static const Color textBlack  = Color(0xFF000000);
   static const Color textBlack1  = Color(0xFF3C3C3C);
   static const Color textBlack2  = Color(0xFF1F1F1F);
+  static const Color textBlack3  = Color(0xFF141B34);
+  static const Color textBlack4  = Color(0xFF5C5C5C);
 
   // Border / Divider
   static const Color border         = Color(0xFF5C5C5C);
   static const Color borderRed         = Color(0xFFFF3B30);
   static const Color border1         = Color(0xFFE1BC54);
   static const Color divider        = Color(0xFFF3F4F6);
+  static const Color border2         = Color(0xFFE9E1D7);
 
   // Status Colors
   static const Color success        = Color(0xFF22C55E);

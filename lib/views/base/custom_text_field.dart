@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   final Color? borderColor;
   final Color? labelColor;
   final Color? textColor;
+  final double? labelFontSize;
 
   const CustomTextField({
     super.key,
@@ -31,6 +32,7 @@ class CustomTextField extends StatelessWidget {
     this.borderColor,
     this.labelColor,
     this.textColor,
+    this.labelFontSize,
   });
 
   @override
@@ -43,6 +45,7 @@ class CustomTextField extends StatelessWidget {
             label!,
             style: AppTextStyles.inputLabel.copyWith(
               color: labelColor ?? AppColors.textBlack,
+              fontSize: labelFontSize,
             ),
           ),
           SizedBox(height: 8.h),

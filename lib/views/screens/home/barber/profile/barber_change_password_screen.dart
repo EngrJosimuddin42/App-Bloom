@@ -4,126 +4,114 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../themes/app_colors.dart';
 import '../../../../../themes/app_text_styles.dart';
+import '../../../../base/custom_button.dart';
+import '../../../../base/password_field.dart';
 
-class BarberChangePasswordScreen extends StatefulWidget {
+class BarberChangePasswordScreen extends StatelessWidget {
   const BarberChangePasswordScreen({super.key});
 
   @override
-  State<BarberChangePasswordScreen> createState() =>
-      _BarberChangePasswordScreenState();
-}
-
-class _BarberChangePasswordScreenState
-    extends State<BarberChangePasswordScreen> {
-  final _currentPwController = TextEditingController();
-  final _newPwController = TextEditingController();
-  final _confirmPwController = TextEditingController();
-
-  bool _showCurrent = false;
-  bool _showNew = false;
-  bool _showConfirm = false;
-
-  @override
-  void dispose() {
-    _currentPwController.dispose();
-    _newPwController.dispose();
-    _confirmPwController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final currentPwController = TextEditingController();
+    final newPwController     = TextEditingController();
+    final confirmPwController = TextEditingController();
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: AppColors.backgroundBlack1,
+        statusBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.backgroundBlack1,
         body: SafeArea(
+          top: true,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Header ──
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () => Get.back(),
-                      child: Icon(Icons.arrow_back_ios_new,
-                          size: 18.r, color: AppColors.textBlack),
-                    ),
-                    SizedBox(width: 12.w),
-                    Text(
-                      'Change Password',
-                      style: AppTextStyles.headingLarge.copyWith(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textBlack,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
 
+              // ── Status bar extended area ──
+              Container(height: 10.h, color: AppColors.backgroundBlack1),
+
+              // ── Main Content ──
               Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: ColoredBox(
+                  color: AppColors.background,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 8.h),
-                      _PasswordField(
-                        label: 'Current Password',
-                        controller: _currentPwController,
-                        obscure: !_showCurrent,
-                        onToggle: () =>
-                            setState(() => _showCurrent = !_showCurrent),
-                      ),
-                      SizedBox(height: 14.h),
-                      _PasswordField(
-                        label: 'New Password',
-                        controller: _newPwController,
-                        obscure: !_showNew,
-                        onToggle: () => setState(() => _showNew = !_showNew),
-                      ),
-                      SizedBox(height: 14.h),
-                      _PasswordField(
-                        label: 'Confirm Password',
-                        controller: _confirmPwController,
-                        obscure: !_showConfirm,
-                        onToggle: () =>
-                            setState(() => _showConfirm = !_showConfirm),
+
+                      // ── Header ──
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 16.h),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () => Get.back(),
+                              child: Icon(Icons.arrow_back_ios_new,
+                                  size: 18.r, color: AppColors.textBlack),
+                            ),
+                            SizedBox(width: 12.w),
+                            Text('Change Password',
+                                style: AppTextStyles.headingLarge.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textBlack,
+                                )),
+                          ],
+                        ),
                       ),
 
-                      SizedBox(height: 40.h),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 8.h),
 
-                      // ── Save Button ──
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // TODO: change password logic
-                            Get.back();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            padding: EdgeInsets.symmetric(vertical: 16.h),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                          ),
-                          child: Text(
-                            'Save Changes',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
+                              // ── Current Password ──
+                              PasswordField(
+                                controller: currentPwController,
+                                label: 'Current Password',
+                                labelColor: AppColors.textSecondary2,
+                                labelFontSize: 14.sp,
+                              ),
+                              SizedBox(height: 14.h),
+
+                              // ── New Password ──
+                              PasswordField(
+                                controller: newPwController,
+                                label: 'New Password',
+                                labelColor: AppColors.textSecondary2,
+                                labelFontSize: 14.sp,
+                              ),
+                              SizedBox(height: 14.h),
+
+                              // ── Confirm Password ──
+                              PasswordField(
+                                controller: confirmPwController,
+                                label: 'Confirm Password',
+                                labelColor: AppColors.textSecondary2,
+                                labelFontSize: 14.sp,
+                              ),
+
+                              SizedBox(height: 380.h),
+
+                              // ── Save Button ──
+                              CustomButton(
+                                label: 'Save Changes',
+                                borderRadius: 12,
+                                onTap: () {
+                                  // TODO: change password logic
+                                  Get.back();
+                                },
+                              ),
+                              SizedBox(height: 24.h),
+                            ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 24.h),
                     ],
                   ),
                 ),
@@ -132,58 +120,6 @@ class _BarberChangePasswordScreenState
           ),
         ),
       ),
-    );
-  }
-}
-
-class _PasswordField extends StatelessWidget {
-  final String label;
-  final TextEditingController controller;
-  final bool obscure;
-  final VoidCallback onToggle;
-
-  const _PasswordField({
-    required this.label,
-    required this.controller,
-    required this.obscure,
-    required this.onToggle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-        ),
-        SizedBox(height: 6.h),
-        TextField(
-          controller: controller,
-          obscureText: obscure,
-          style: TextStyle(fontSize: 14.sp, color: const Color(0xFF1A1A1A)),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: const Color(0xFFF5F5F5),
-            prefixIcon: Icon(Icons.lock_outline, size: 18.r, color: Colors.grey),
-            suffixIcon: GestureDetector(
-              onTap: onToggle,
-              child: Icon(
-                obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                size: 18.r,
-                color: Colors.grey,
-              ),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding:
-            EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-          ),
-        ),
-      ],
     );
   }
 }
