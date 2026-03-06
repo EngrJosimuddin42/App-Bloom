@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import '../../../../../controllers/barber_home_controller.dart';
 import '../../../../../themes/app_colors.dart';
 import '../../../../../themes/app_text_styles.dart';
-import '../../../../base/barber_bottom_nav.dart';
-import '../../../../base/barber_nav_helper.dart';
 import '../../../../base/Barber_top_header.dart';
 import '../../../../base/custom_button.dart';
 import '../../../../base/offline_banner.dart';
@@ -76,11 +74,11 @@ class _ApplicationIdCardState extends State<ApplicationIdCard> {
                                         // ── Application ID Card ──
                                         Container(
                                           width: double.infinity,
-                                          padding: EdgeInsets.all(16.w),
+                                          padding: EdgeInsets.all(8.w),
                                           decoration: BoxDecoration(
                                             color: AppColors.cardColor,
-                                            borderRadius:
-                                            BorderRadius.circular(16.r),
+                                            borderRadius: BorderRadius.circular(12.r),
+                                            border: Border.all(color:AppColors.textBlack4)
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -88,10 +86,9 @@ class _ApplicationIdCardState extends State<ApplicationIdCard> {
                                             children: [
                                               Text(
                                                 'Your Application ID',
-                                                style: AppTextStyles.bodyPrimary
-                                                    .copyWith(
-                                                    color: AppColors
-                                                        .textSecondary),
+                                                style: AppTextStyles.bodyPrimary.copyWith(
+                                                  fontSize: 12.sp,
+                                                    color: AppColors.textBlack),
                                               ),
                                               SizedBox(height: 12.h),
 
@@ -101,54 +98,27 @@ class _ApplicationIdCardState extends State<ApplicationIdCard> {
                                                 _isRevealed = !_isRevealed),
                                                 child: Container(
                                                   width: double.infinity,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 14.h,
-                                                      horizontal: 16.w),
+                                                  padding: EdgeInsets.symmetric(vertical: 14.h,horizontal: 14.w),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        10.r),
-                                                    border: Border.all(
-                                                        color:
-                                                        AppColors.border2),
+                                                    color: AppColors.backgroundWhite,
+                                                    borderRadius:BorderRadius.circular(12.r),
+                                                    border: Border.all(color:AppColors.textBlack),
                                                   ),
                                                   child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       Expanded(
                                                         child: Text(
                                                           _isRevealed
-                                                              ? controller
-                                                              .applicationId
-                                                              : '•' *
-                                                              controller
-                                                                  .applicationId
-                                                                  .length,
-                                                          style: AppTextStyles
-                                                              .headingLarge
-                                                              .copyWith(
-                                                            color: AppColors
-                                                                .textBlack,
+                                                              ? controller.applicationId
+                                                              : '-' * controller.applicationId.length,
+                                                          style: AppTextStyles.headingLarge.copyWith(
+                                                            color: AppColors.textBlack,
+                                                            fontWeight: FontWeight.w900,
                                                             letterSpacing: 3,
                                                           ),
-                                                          textAlign:
-                                                          TextAlign.center,
+                                                          textAlign: TextAlign.center,
                                                         ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () =>
-                                                            Clipboard.setData(
-                                                                ClipboardData(
-                                                                    text: controller
-                                                                        .applicationId)),
-                                                        child: Icon(
-                                                            Icons.copy_outlined,
-                                                            size: 18.w,
-                                                            color: AppColors
-                                                                .textSecondary),
                                                       ),
                                                     ],
                                                   ),
@@ -158,19 +128,17 @@ class _ApplicationIdCardState extends State<ApplicationIdCard> {
                                               SizedBox(height: 8.h),
                                               Text(
                                                 'Save this ID for tracking your application status',
-                                                style: AppTextStyles.caption
-                                                    .copyWith(
-                                                    color: AppColors
-                                                        .textSecondary),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                                style: AppTextStyles.caption.copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                    color: AppColors.textBlack),
+                                                     textAlign: TextAlign.center),
                                               SizedBox(height: 16.h),
 
                                               // ── Verify Button ──
                                               CustomButton(
                                                 label: 'Verify',
-                                                isEnabled: true,
-                                                onTap: controller.goToVerify,
+                                                isEnabled: _isRevealed,
+                                                onTap: _isRevealed ? controller.goToVerify : () {},
                                               ),
                                             ],
                                           ),
@@ -179,9 +147,13 @@ class _ApplicationIdCardState extends State<ApplicationIdCard> {
                                         SizedBox(height: 16.h),
 
                                         // ── Offline Banner ──
-                                        OfflineBanner(
-                                          onGoOnline: () => controller
-                                              .toggleOnlineStatus(true),
+                                        Obx(() => controller.isOnline
+                                            ? const SizedBox()
+                                            : OfflineBanner(
+                                          onGoOnline: () => controller.toggleOnlineStatus(true),
+                                          buttonColor: AppColors.textSecondary,
+                                         buttonWidth: 200.w,
+                                        ),
                                         ),
                                       ],
                                     ),
@@ -189,10 +161,38 @@ class _ApplicationIdCardState extends State<ApplicationIdCard> {
                                 ),
 
                                 // ── Bottom Nav ──
-                                BarberBottomNav(
-                                  currentIndex: 0,
-                                  onTap: (index) =>
-                                      BarberNavHelper.onTap(index, 0),
+                                Container(
+                                  color: Colors.white,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Image.asset('assets/images/home.png', width: 24.r, height: 24.r),
+                                              SizedBox(height: 4.h),
+                                              Text('Home',
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: AppColors.textBlack)),
+                                              SizedBox(height: 4.h),
+                                              Container(
+                                                width: 15.w,
+                                                height: 2.h,
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.textBlack,
+                                                  borderRadius: BorderRadius.circular(2.r),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
 
                                 // ── Safe area ──

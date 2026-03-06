@@ -49,6 +49,9 @@ class BarberRequiredInfoController extends GetxController {
 
       homeController.setApplicationId(applicationId);
 
+      // ── ApplicationIdCard screen এ offline
+      await homeController.toggleOnlineStatus(false);
+
       Get.to(
             () => const ApplicationIdCard(),
         transition: Transition.rightToLeft,

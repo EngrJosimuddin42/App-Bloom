@@ -9,8 +9,10 @@ class CustomButton extends StatelessWidget {
   final bool isEnabled;
   final VoidCallback onTap;
   final double? height;
+  final double? width;
   final double? borderRadius;
   final Gradient? gradient;
+  final Color? color;
 
   const CustomButton({
     super.key,
@@ -19,8 +21,10 @@ class CustomButton extends StatelessWidget {
     this.isLoading = false,
     this.isEnabled = true,
     this.height,
+    this.width,
     this.borderRadius,
     this.gradient,
+    this.color,
   });
 
   @override
@@ -28,15 +32,15 @@ class CustomButton extends StatelessWidget {
     final radius = (borderRadius ?? 8).r;
 
     return SizedBox(
-      width: 358.w,
+      width: width ?? 358.w,
       height: height ?? 48.h,
       child: Material(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(radius),
         child: Ink(
           decoration: BoxDecoration(
-            color: isEnabled ? null : AppColors.textSecondary,
-            gradient: isEnabled
+            color: color ?? (isEnabled ? null : AppColors.textSecondary),
+            gradient: (color == null && isEnabled)
                 ? (gradient ?? AppColors.splashGradient)
                 : null,
             borderRadius: BorderRadius.circular(radius),

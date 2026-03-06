@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../controllers/barber_home_controller.dart';
+import '../../../../../helpers/storage_helper.dart';
 import '../../../../../themes/app_colors.dart';
 import '../../../../../themes/app_text_styles.dart';
 import '../../../../base/section_title.dart';
@@ -17,7 +18,10 @@ class BarberSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.find<BarberHomeController>();
+    final c = Get.isRegistered<BarberHomeController>()
+        ? Get.find<BarberHomeController>()
+        : Get.put(BarberHomeController());
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: AppColors.backgroundBlack1,
@@ -134,10 +138,10 @@ class BarberSettingsScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
-                          onPressed: () => Get.offAll(
-                                () => const LoginScreen(),
-                            transition: Transition.leftToRight,
-                          ),
+                          onPressed: () {
+                            StorageHelper.clearAll();
+                            Get.offAll(() => const LoginScreen(), transition: Transition.leftToRight);
+                          },
                           icon: Image.asset(
                             'assets/images/logout-square.png',
                             width: 24.r,

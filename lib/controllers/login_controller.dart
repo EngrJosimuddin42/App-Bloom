@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/api_service.dart';
 import '../views/screens/forgot_password/forgot_password_screen.dart';
+import '../views/screens/home/barber/barber_home_screen.dart';
 import '../views/screens/sign_up/sign_up_screen.dart';
 
 class LoginController extends GetxController {
 
   // ── Controllers ──
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController    = TextEditingController(text: 'josimcse@gmail.com');
+  final passwordController = TextEditingController(text: 'password123');
 
   // ── State ──
   final _obscurePassword = true.obs;
@@ -93,7 +94,14 @@ class LoginController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
 
-      // Get.offAll(() => const HomeScreen());
+      Get.closeAllSnackbars();
+      await Future.delayed(const Duration(milliseconds: 100));
+      if (user.isBarber) {
+        Get.offAll(
+              () => const BarberHomeScreen(),transition: Transition.noTransition);
+      } else {
+        //Get.offAll(() => const CustomerHomeScreen(),transition: Transition.noTransition);
+      }
 
     } catch (e) {
       Get.snackbar(
@@ -117,12 +125,5 @@ class LoginController extends GetxController {
   // ── Sign Up ──
   void goToSignUp(BuildContext context) {
      Get.to(() => const SignUpScreen());
-  }
-
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
   }
 }

@@ -19,6 +19,7 @@ class AppColors {
 
   // Background Colors
   static const Color background     = Color(0xFFFFFFFF);
+  static const Color backgroundWhite = Color(0xFFFAF5FF);
   static const Color backgroundBlue = Color(0xFF007AFF);
   static const Color backgroundGrey = Color(0xFFD9D9D9);
   static const Color backgroundOrange = Color(0xFFFF9500);

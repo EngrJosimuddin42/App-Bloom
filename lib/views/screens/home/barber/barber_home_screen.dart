@@ -18,7 +18,7 @@ class BarberHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BarberHomeController());
+    final controller = Get.put(BarberHomeController(), permanent: true);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(

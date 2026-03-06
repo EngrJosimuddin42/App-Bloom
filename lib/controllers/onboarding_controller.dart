@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../services/local_storage_service.dart';
 import '../../utils/constants/onboarding_data.dart';
+import '../helpers/storage_helper.dart';
 import '../views/screens/login_screen.dart';
 
 class OnboardingController extends GetxController {
@@ -37,7 +37,7 @@ class OnboardingController extends GetxController {
   }
 
   Future<void> onGetStarted() async {
-    await LocalStorageService.setOnboardingCompleted();
+    StorageHelper.setOnboardingDone();
     Get.offAll(
           () => const LoginScreen(),
       transition: Transition.fade,

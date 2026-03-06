@@ -11,7 +11,7 @@ class ForgotPasswordController extends GetxController {
   final _api = Get.find<ApiService>();
 
   // ── Controllers ──
-  final emailController = TextEditingController();
+  final emailController = TextEditingController(text: 'josimcse@gmail.com');
   final List<TextEditingController> otpControllers =
   List.generate(6, (_) => TextEditingController(text: '0'));
   final newPasswordController = TextEditingController();

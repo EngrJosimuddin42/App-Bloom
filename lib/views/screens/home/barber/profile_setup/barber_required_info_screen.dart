@@ -135,7 +135,7 @@ class BarberRequiredInfoScreen extends StatelessWidget {
                       prefixIcon: Padding(
                         padding: EdgeInsets.all(10.w),
                         child: Image.asset('assets/images/location1.png',
-                          width: 24.w, height: 24.w, color: AppColors.textBlack,
+                          width: 20.w, height: 20.w, color: AppColors.textBlack,
                         ),
                       ),
                       suffixIcon: Padding(

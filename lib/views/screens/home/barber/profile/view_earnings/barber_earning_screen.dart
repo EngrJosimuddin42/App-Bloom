@@ -9,7 +9,7 @@ import '../../../../../base/earning_history_item.dart';
 import '../../../../../base/earnings_card.dart';
 import '../../../../../base/payment_method_card.dart';
 import '../../../../../base/segmented_tab_bar.dart';
-import 'barber_payment_method_screen.dart';
+
 
 class BarberEarningScreen extends StatefulWidget {
   const BarberEarningScreen({super.key});

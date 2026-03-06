@@ -14,7 +14,7 @@ class BarberHomeController extends GetxController {
   // final _api = Get.find<ApiService>();
 
   // ── Dashboard State ──
-  final _isOnline       = false.obs;
+  final _isOnline = true.obs;
   final _isLoading      = false.obs;
   final _earnings       = ''.obs;
   final _earningsChange = ''.obs;
@@ -171,7 +171,6 @@ class BarberHomeController extends GetxController {
       _earnings.value       = '\$1,240';
       _earningsChange.value = '+18% from last week';
       _earningsDate.value   = '09/25';
-      _isOnline.value       = true;
 
       _stats.value = [
         {'icon': 'assets/images/dollar_icon.png', 'value': '\$420', 'label': 'Today'},

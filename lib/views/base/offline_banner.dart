@@ -6,17 +6,22 @@ import 'custom_button.dart';
 
 class OfflineBanner extends StatelessWidget {
   final VoidCallback onGoOnline;
+  final Color? buttonColor;
+  final double? buttonWidth;
+
 
   const OfflineBanner({
     super.key,
     required this.onGoOnline,
+  this.buttonColor,
+    this.buttonWidth,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 10.h),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       decoration: BoxDecoration(
         color: AppColors.cardColor,
         border: Border.all(color:AppColors.textBlack),
@@ -56,11 +61,13 @@ class OfflineBanner extends StatelessWidget {
           ),
           SizedBox(height: 20.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40.w),
+            padding: EdgeInsets.symmetric(horizontal:40.w),
             child: CustomButton(
               label: 'Go online',
               isEnabled: true,
               onTap: onGoOnline,
+              color: buttonColor,
+              width: buttonWidth,
             ),
           ),
         ],

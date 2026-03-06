@@ -39,7 +39,7 @@ class _PasswordFieldState extends State<PasswordField> {
       hint: widget.hint ?? '* * * * * * * *',
       label: widget.label,
       fillColor: widget.fillColor ?? AppColors.cardColor,
-      borderColor: widget.borderColor ?? AppColors.border2,
+      borderColor: widget.borderColor ?? AppColors.textBlack4,
       obscureText: _obscure,
       errorText: widget.errorText,
       labelColor: widget.labelColor,

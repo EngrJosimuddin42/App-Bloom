@@ -26,18 +26,34 @@ class ApiService {
   // ─────────────────────────────────────────
 
   Future<UserModel> login({required String email, required String password}) async {
-    try {
-      final response = await _dio.post('/auth/login', data: {'email': email, 'password': password});
-      final data = response.data['data'] ?? response.data;
-      final user = UserModel.fromJson(data['user']);
-      final token = data['token'];
-      StorageHelper.saveToken(token);
-      StorageHelper.saveUser(user);
-      StorageHelper.setLoggedIn(true);
-      return user;
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    final mockUser = UserModel(
+      id: 1,
+      firstName: 'Marcus',
+      lastName: 'Johnson',
+      email: email,
+      token: 'mock-token-123',
+      role: 'barber', // ← 'customer' করলে customer home এ যাবে
+    );
+    StorageHelper.saveToken(mockUser.token);
+    StorageHelper.saveUser(mockUser);
+    StorageHelper.setLoggedIn(true);
+    return mockUser;
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.post('/auth/login', data: {'email': email, 'password': password});
+    //   final data = response.data['data'] ?? response.data;
+    //   final user = UserModel.fromJson(data['user']);
+    //   final token = data['token'];
+    //   StorageHelper.saveToken(token);
+    //   StorageHelper.saveUser(user);
+    //   StorageHelper.setLoggedIn(true);
+    //   return user;
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
   }
 
   Future<void> logout() async {
@@ -141,7 +157,6 @@ class ApiService {
     }
   }
 
-  // ── Barber: Required Info Submit ──
   Future<Map<String, dynamic>> submitBarberApplication({
     required String name,
     required String email,
@@ -165,7 +180,6 @@ class ApiService {
     }
   }
 
-  // ── Barber: Application Status ──
   Future<Map<String, dynamic>> getApplicationStatus({required String applicationId}) async {
     try {
       final response = await _dio.get('/barber/application/$applicationId');
@@ -175,7 +189,6 @@ class ApiService {
     }
   }
 
-  // ── Barber: Verify Application ──
   Future<void> verifyBarberApplication({required String applicationId}) async {
     try {
       await _dio.post('/barber/application/$applicationId/verify');
@@ -184,7 +197,6 @@ class ApiService {
     }
   }
 
-  // ── Barber: Get Requests ──
   Future<List<Map<String, dynamic>>> getBarberRequests() async {
     try {
       final response = await _dio.get('/barber/requests');
@@ -195,7 +207,6 @@ class ApiService {
     }
   }
 
-  // ── Barber: Accept Request ──
   Future<void> acceptRequest({required String requestId}) async {
     try {
       await _dio.post('/barber/requests/$requestId/accept');
@@ -204,7 +215,6 @@ class ApiService {
     }
   }
 
-  // ── Barber: Decline Request ──
   Future<void> declineRequest({required String requestId}) async {
     try {
       await _dio.post('/barber/requests/$requestId/decline');
@@ -217,28 +227,10 @@ class ApiService {
   //  EARNINGS
   // ─────────────────────────────────────────
 
-  // ── Barber: Get Earnings ──
-  // period: 'week' | 'month' | 'year'
   Future<Map<String, dynamic>> getBarberEarnings({required String period}) async {
     try {
       final response = await _dio.get('/barber/earnings', queryParameters: {'period': period});
       return response.data['data'] ?? response.data;
-      // Expected response:
-      // {
-      //   "total": "$867.50",
-      //   "change": "+18% from last week",
-      //   "date": "09/25",
-      //   "history": [
-      //     {
-      //       "name": "David Chen",
-      //       "service": "Men's Haircut",
-      //       "time": "Today 2:30 PM",
-      //       "amount": "$34.75",
-      //       "base": "$29.75",
-      //       "tip": "+$5.00 tip"
-      //     }
-      //   ]
-      // }
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -248,29 +240,16 @@ class ApiService {
   //  PAYMENT METHODS
   // ─────────────────────────────────────────
 
-  // ── Get Payment Methods ──
   Future<List<Map<String, dynamic>>> getPaymentMethods() async {
     try {
       final response = await _dio.get('/barber/payment-methods');
       final list = response.data['data'] as List? ?? [];
       return list.map<Map<String, dynamic>>((e) => Map<String, dynamic>.from(e)).toList();
-      // Expected response:
-      // [
-      //   {
-      //     "id": "pm_001",
-      //     "type": "bank",         // 'bank' | 'card'
-      //     "title": "Bank Account",
-      //     "subtitle": "Brac Bank",
-      //     "last4": "4245",
-      //     "is_primary": true
-      //   }
-      // ]
     } on DioException catch (e) {
       throw _handleError(e);
     }
   }
 
-  // ── Set Primary Payment Method ──
   Future<void> setPrimaryPaymentMethod({required String methodId}) async {
     try {
       await _dio.post('/barber/payment-methods/$methodId/primary');
@@ -279,7 +258,6 @@ class ApiService {
     }
   }
 
-  // ── Delete Payment Method ──
   Future<void> deletePaymentMethod({required String methodId}) async {
     try {
       await _dio.delete('/barber/payment-methods/$methodId');
@@ -288,11 +266,10 @@ class ApiService {
     }
   }
 
-  // ── Add Bank Account ──
   Future<Map<String, dynamic>> addBankAccount({
     required String accountNumber,
     required String bankName,
-    required String accountType, // 'checking' | 'savings'
+    required String accountType,
     required String billingZip,
   }) async {
     try {
@@ -308,7 +285,6 @@ class ApiService {
     }
   }
 
-  // ── Add Debit Card ──
   Future<Map<String, dynamic>> addDebitCard({
     required String cardNumber,
     required String expiryDate,
@@ -332,7 +308,6 @@ class ApiService {
   //  PROFILE
   // ─────────────────────────────────────────
 
-  // ── Profile: Get Profile ──
   Future<UserModel> getProfile() async {
     try {
       final response = await _dio.get('/user/profile');
@@ -345,7 +320,6 @@ class ApiService {
     }
   }
 
-  // ── Profile: Update Profile ──
   Future<UserModel> updateProfile({
     required String firstName,
     required String lastName,
@@ -370,7 +344,6 @@ class ApiService {
     }
   }
 
-  // ── Profile: Change Password ──
   Future<void> changePassword({
     required String currentPassword,
     required String newPassword,
@@ -387,7 +360,6 @@ class ApiService {
     }
   }
 
-  // ── Profile: Upload Avatar ──
   Future<String> uploadAvatar({required String filePath}) async {
     try {
       final formData = FormData.fromMap({
