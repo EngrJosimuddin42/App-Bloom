@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../../themes/app_colors.dart';
 import '../../../../../../themes/app_text_styles.dart';
-
+import '../../../../../base/custom_text_field.dart';
 
 class BarberAddDebitCardScreen extends StatefulWidget {
   const BarberAddDebitCardScreen({super.key});
@@ -15,8 +15,8 @@ class BarberAddDebitCardScreen extends StatefulWidget {
 
 class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
   final _cardNumberController = TextEditingController();
-  final _expiryController = TextEditingController();
-  final _cvvController = TextEditingController();
+  final _expiryController     = TextEditingController();
+  final _cvvController        = TextEditingController();
   final _billingZipController = TextEditingController();
 
   @override
@@ -26,31 +26,6 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
     _cvvController.dispose();
     _billingZipController.dispose();
     super.dispose();
-  }
-
-  Widget _buildField({required String label, required TextEditingController controller, String? hint, TextInputType? keyboardType, bool obscure = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: AppColors.textBlack)),
-        SizedBox(height: 6.h),
-        TextField(
-          controller: controller,
-          keyboardType: keyboardType,
-          obscureText: obscure,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(fontSize: 13.sp, color: Colors.grey.shade400),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Colors.black)),
-          ),
-        ),
-      ],
-    );
   }
 
   @override
@@ -69,23 +44,27 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
               Container(height: 10.h, color: AppColors.backgroundBlack1),
               Expanded(
                 child: ColoredBox(
-                  color: const Color(0xFFF5F5F5),
+                  color: AppColors.background,
                   child: Column(
                     children: [
+
                       // ── Header ──
                       Container(
-                        color: Colors.white,
+                        color: AppColors.background,
                         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                         child: Row(
                           children: [
                             GestureDetector(
                               onTap: () => Get.back(),
-                              child: Icon(Icons.arrow_back_ios_new, size: 18.r, color: AppColors.textBlack),
+                              child: Icon(Icons.arrow_back_ios_new,
+                                  size: 18.r, color: AppColors.textBlack),
                             ),
                             SizedBox(width: 12.w),
                             Text('Add Debit Card',
                                 style: AppTextStyles.headingLarge.copyWith(
-                                    color: AppColors.textBlack, fontSize: 18.sp, fontWeight: FontWeight.w700)),
+                                    color: AppColors.textBlack,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w500)),
                           ],
                         ),
                       ),
@@ -97,11 +76,14 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 8.h),
-
                               // ── Card Number ──
-                              _buildField(
+                              CustomTextField(
                                 label: 'Card Number',
+                                labelFontSize: 14.sp,
+                                labelColor: AppColors.textBlack,
+                                borderColor: AppColors.textBlack4,
+                                fillColor: AppColors.cardColor,
+                                textColor: AppColors.textBlack1,
                                 controller: _cardNumberController,
                                 hint: '456453456345',
                                 keyboardType: TextInputType.number,
@@ -112,56 +94,49 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Expiry Date',
-                                            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: AppColors.textBlack)),
-                                        SizedBox(height: 6.h),
-                                        TextField(
-                                          controller: _expiryController,
-                                          keyboardType: TextInputType.datetime,
-                                          decoration: InputDecoration(
-                                            hintText: 'MM/YY',
-                                            hintStyle: TextStyle(fontSize: 13.sp, color: Colors.grey.shade400),
-                                            suffixIcon: Icon(Icons.calendar_today_outlined, size: 16.r, color: Colors.grey),
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
-                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-                                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Colors.black)),
-                                          ),
+                                    child: CustomTextField(
+                                      label: 'Expiry Date',
+                                      labelFontSize: 14.sp,
+                                      labelColor: AppColors.textBlack,
+                                      borderColor: AppColors.textBlack4,
+                                      fillColor: AppColors.cardColor,
+                                      textColor: AppColors.textBlack,
+                                      controller: _expiryController,
+                                      hint: 'MM/YY',
+                                      keyboardType: TextInputType.datetime,
+                                      suffixIcon: GestureDetector(
+                                        onTap: () async {
+                                          final picked = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(2035),
+                                          );
+                                          if (picked != null) {
+                                            _expiryController.text =
+                                            '${picked.month.toString().padLeft(2, '0')}/${picked.year.toString().substring(2)}';
+                                          }
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.all(12.r),
+                                          child: Image.asset('assets/images/calendar.png', width: 16.r, height: 16.r),
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(width: 12.w),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('CVV',
-                                            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: AppColors.textBlack)),
-                                        SizedBox(height: 6.h),
-                                        TextField(
-                                          controller: _cvvController,
-                                          keyboardType: TextInputType.number,
-                                          obscureText: true,
-                                          maxLength: 3,
-                                          decoration: InputDecoration(
-                                            hintText: '123',
-                                            hintStyle: TextStyle(fontSize: 13.sp, color: Colors.grey.shade400),
-                                            counterText: '',
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
-                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-                                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Colors.black)),
-                                          ),
-                                        ),
-                                      ],
+                                    child: CustomTextField(
+                                      label: 'CVV',
+                                      labelFontSize: 14.sp,
+                                      labelColor: AppColors.textBlack,
+                                      borderColor: AppColors.textBlack4,
+                                      fillColor: AppColors.cardColor,
+                                      textColor: AppColors.textBlack,
+                                      controller: _cvvController,
+                                      hint: '123',
+                                      keyboardType: TextInputType.number,
+                                      obscureText: true,
                                     ),
                                   ),
                                 ],
@@ -169,8 +144,13 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
                               SizedBox(height: 16.h),
 
                               // ── Billing ZIP ──
-                              _buildField(
+                              CustomTextField(
                                 label: 'Billing ZIP Code',
+                                labelFontSize: 14.sp,
+                                labelColor: AppColors.textBlack,
+                                borderColor: AppColors.textBlack4,
+                                fillColor: AppColors.cardColor,
+                                textColor: AppColors.textBlack1,
                                 controller: _billingZipController,
                                 hint: '000112541',
                                 keyboardType: TextInputType.number,
@@ -184,19 +164,22 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
                       // ── Submit ──
                       Container(
                         color: Colors.white,
-                        padding: EdgeInsets.all(16.w),
+                        padding: EdgeInsets.all(12.w),
                         child: GestureDetector(
                           onTap: () => Get.back(),
                           child: Container(
                             width: double.infinity,
-                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
                             decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(12.r),
+                              color: AppColors.backgroundBlack,
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                             child: Text('Add Debit Card',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textWhite)),
                           ),
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:app_bloom/views/screens/home/barber/profile/view_earnings/barber_payment_method_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -110,7 +111,8 @@ class BarberSettingsScreen extends StatelessWidget {
                         iconColor: AppColors.secondary,
                         iconBg: AppColors.backgroundGreen1,
                         title: 'Payment Methods',
-                        onTap: () {},
+                        onTap: () => Get.to(() => const BarberPaymentMethodScreen(),
+                            transition: Transition.rightToLeft),
                       ),
 
                       SizedBox(height: 16.h),

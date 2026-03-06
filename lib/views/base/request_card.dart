@@ -77,12 +77,12 @@ class RequestCard extends StatelessWidget {
           // ── Rating ──
           Row(
             children: [
-              Icon(Icons.star, size: 16.w, color: AppColors.textBlack),
-              SizedBox(width: 4.w),
+              Image.asset('assets/images/star.png', width: 18.w, height: 18.w),
+              SizedBox(width: 8.w),
               Text(
                 '${request['rating'] ?? '0.0'} Customer Rating',
                 style: AppTextStyles.caption
-                    .copyWith(color: AppColors.textBlack),
+                    .copyWith(color: AppColors.textBlack,fontSize: 14.sp),
               ),
             ],
           ),

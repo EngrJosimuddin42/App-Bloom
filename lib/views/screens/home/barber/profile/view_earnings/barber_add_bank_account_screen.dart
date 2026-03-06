@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../../themes/app_colors.dart';
 import '../../../../../../themes/app_text_styles.dart';
+import '../../../../../base/account_type_toggle.dart';
+import '../../../../../base/custom_text_field.dart';
 
 class BarberAddBankAccountScreen extends StatefulWidget {
   const BarberAddBankAccountScreen({super.key});
@@ -14,8 +16,8 @@ class BarberAddBankAccountScreen extends StatefulWidget {
 
 class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen> {
   final _accountNumberController = TextEditingController();
-  final _bankNameController = TextEditingController();
-  final _billingZipController = TextEditingController();
+  final _bankNameController      = TextEditingController();
+  final _billingZipController    = TextEditingController();
   int _accountType = 0; // 0=Checking, 1=Savings
 
   @override
@@ -24,30 +26,6 @@ class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen>
     _bankNameController.dispose();
     _billingZipController.dispose();
     super.dispose();
-  }
-
-  Widget _buildField({required String label, required TextEditingController controller, required IconData icon, TextInputType? keyboardType}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: AppColors.textBlack)),
-        SizedBox(height: 6.h),
-        TextField(
-          controller: controller,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            prefixIcon: Icon(icon, size: 18.r, color: Colors.grey),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: BorderSide(color: Colors.grey.shade200)),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r), borderSide: const BorderSide(color: Colors.black)),
-          ),
-        ),
-        SizedBox(height: 16.h),
-      ],
-    );
   }
 
   @override
@@ -66,12 +44,13 @@ class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen>
               Container(height: 10.h, color: AppColors.backgroundBlack1),
               Expanded(
                 child: ColoredBox(
-                  color: const Color(0xFFF5F5F5),
+                  color: AppColors.background,
                   child: Column(
                     children: [
+
                       // ── Header ──
                       Container(
-                        color: Colors.white,
+                        color: AppColors.background,
                         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                         child: Row(
                           children: [
@@ -82,7 +61,9 @@ class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen>
                             SizedBox(width: 12.w),
                             Text('Add Bank Account',
                                 style: AppTextStyles.headingLarge.copyWith(
-                                    color: AppColors.textBlack, fontSize: 18.sp, fontWeight: FontWeight.w700)),
+                                    color: AppColors.textBlack,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w500)),
                           ],
                         ),
                       ),
@@ -94,77 +75,34 @@ class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 8.h),
-
-                              _buildField(
-                                label: 'Account Number',
+                              // ── Account Number ──
+                              CustomTextField(
+                                label: 'Account Number',labelFontSize: 14.sp,labelColor: AppColors.textBlack,borderColor: AppColors.textBlack4,fillColor: AppColors.cardColor,
                                 controller: _accountNumberController,
-                                icon: Icons.account_balance_outlined,
+                                hint: '0001112541',
                                 keyboardType: TextInputType.number,
-                              ),
-
-                              _buildField(
-                                label: 'Bank Name',
-                                controller: _bankNameController,
-                                icon: Icons.account_balance,
-                              ),
-
-                              // ── Account Type ──
-                              Text('Account Type',
-                                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: AppColors.textBlack)),
-                              SizedBox(height: 6.h),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () => setState(() => _accountType = 0),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                                        decoration: BoxDecoration(
-                                          color: _accountType == 0 ? Colors.black : Colors.white,
-                                          borderRadius: BorderRadius.circular(8.r),
-                                          border: Border.all(color: _accountType == 0 ? Colors.black : Colors.grey.shade200),
-                                        ),
-                                        child: Text('Checking',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: _accountType == 0 ? Colors.white : Colors.black,
-                                            )),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 12.w),
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () => setState(() => _accountType = 1),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                                        decoration: BoxDecoration(
-                                          color: _accountType == 1 ? Colors.black : Colors.white,
-                                          borderRadius: BorderRadius.circular(8.r),
-                                          border: Border.all(color: _accountType == 1 ? Colors.black : Colors.grey.shade200),
-                                        ),
-                                        child: Text('Savings',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: _accountType == 1 ? Colors.white : Colors.black,
-                                            )),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.all(12.r),
+                                  child: Image.asset('assets/images/id_card.png', width: 18.r, height: 18.r),
+                                ),
                               ),
                               SizedBox(height: 16.h),
 
-                              _buildField(
-                                label: 'Billing ZIP Code',
-                                controller: _billingZipController,
-                                icon: Icons.location_on_outlined,
-                                keyboardType: TextInputType.number,
+                              // ── Bank Name ──
+                              CustomTextField(
+                                label: 'Bank Name',labelFontSize: 14.sp,labelColor: AppColors.textBlack,borderColor: AppColors.textBlack4,fillColor: AppColors.cardColor,
+                                controller: _bankNameController,
+                                hint: 'Brac Bank',
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.all(12.r),
+                                  child: Image.asset('assets/images/bank.png', width: 18.r, height: 18.r,color: AppColors.textBlack                                                                       ),
+                                ),                              ),
+                              SizedBox(height: 16.h),
+
+                              // ── Account Type ──
+                              AccountTypeToggle(
+                                selectedIndex: _accountType,
+                                onChanged: (i) => setState(() => _accountType = i),
                               ),
                             ],
                           ),
@@ -174,19 +112,22 @@ class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen>
                       // ── Submit ──
                       Container(
                         color: Colors.white,
-                        padding: EdgeInsets.all(16.w),
+                        padding: EdgeInsets.all(12.w),
                         child: GestureDetector(
                           onTap: () => Get.back(),
                           child: Container(
                             width: double.infinity,
-                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            padding: EdgeInsets.symmetric(vertical: 12.h),
                             decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text('Add Bank Account',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textWhite)),
                           ),
                         ),
                       ),

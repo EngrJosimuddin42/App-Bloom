@@ -1,3 +1,4 @@
+import 'package:app_bloom/views/screens/home/barber/request/barber_request_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,7 +87,7 @@ class BarberHomeScreen extends StatelessWidget {
                                         schedule: controller.previewSchedule,
                                         onSeeMore: controller.seeMoreSchedule,
                                         onNewBookingTap: () {
-                                          // Get.to(() => BookingRequestScreen())
+                                           Get.to(() => BarberRequestScreen());
                                         },
                                         onNavigate: controller.startNavigation,
                                       )),

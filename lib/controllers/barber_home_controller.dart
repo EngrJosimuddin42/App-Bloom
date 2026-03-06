@@ -48,6 +48,21 @@ class BarberHomeController extends GetxController {
   final _totalReviews    = 0.obs;
   final _positivePercent = 0.obs;
 
+  // ── Earnings State ──
+  final _earningsSummary      = ''.obs;
+  final _earningsSummaryLabel = ''.obs;
+  final _earningsGrowth       = ''.obs;
+  final _earningsPeriodDate   = ''.obs;
+  final _paymentMethodLabel   = ''.obs;
+  final _paymentMethodNumber  = ''.obs;
+  final _weekHistory          = <Map<String, dynamic>>[].obs;
+  final _monthHistory         = <Map<String, dynamic>>[].obs;
+  final _yearHistory          = <Map<String, dynamic>>[].obs;
+
+  // ── Payment Methods State ──
+  final _paymentMethods = <Map<String, dynamic>>[].obs;
+  final _primaryIndex   = 0.obs;
+
 
   // ── Navigation State ──
   final _navAppointment   = <String, dynamic>{}.obs;
@@ -101,6 +116,28 @@ class BarberHomeController extends GetxController {
   double                     get overallRating   => _overallRating.value;
   int                        get totalReviews    => _totalReviews.value;
   int                        get positivePercent => _positivePercent.value;
+
+
+  // ── Earnings Getters ──
+  String get earningsSummary      => _earningsSummary.value;
+  String get earningsSummaryLabel => _earningsSummaryLabel.value;
+  String get earningsGrowth       => _earningsGrowth.value;
+  String get earningsPeriodDate   => _earningsPeriodDate.value;
+  String get paymentMethodLabel   => _paymentMethodLabel.value;
+  String get paymentMethodNumber  => _paymentMethodNumber.value;
+
+  List<Map<String, dynamic>> earningHistory(int tabIndex) {
+    switch (tabIndex) {
+      case 0:  return _weekHistory;
+      case 1:  return _monthHistory;
+      case 2:  return _yearHistory;
+      default: return _weekHistory;
+    }
+  }
+
+// ── Payment Methods Getters ──
+  List<Map<String, dynamic>> get paymentMethods => _paymentMethods;
+  int get primaryIndex => _primaryIndex.value;
 
 
   // ── Navigation Getters ──
@@ -228,6 +265,50 @@ class BarberHomeController extends GetxController {
         },
       ];
 
+      // ── DEV: Mock Earnings ──
+      _earningsSummary.value      = '\$867.50';
+      _earningsSummaryLabel.value = "This Week's Earnings";
+      _earningsGrowth.value       = '+18% from last week';
+      _earningsPeriodDate.value   = '09/25';
+      _paymentMethodLabel.value   = 'Bank Account';
+      _paymentMethodNumber.value  = '**** **** **** 4242';
+
+      _weekHistory.value = [
+        {'name': 'David Chen',    'service': "Men's Haircut",     'time': 'Today 2:30 PM',     'amount': '\$34.75', 'base': '\$29.75', 'tip': '+\$5.00 tip'},
+        {'name': 'Michael Scott', 'service': 'Hair + Beard',      'time': 'Yesterday 5:30 PM', 'amount': '\$45.89', 'base': '\$35.75', 'tip': '+\$10.00 tip'},
+        {'name': 'Julian Vance',  'service': 'Classic Pompadour', 'time': 'Mon 2:30 PM',       'amount': '\$39.50', 'base': '\$32.70', 'tip': '+\$7.00 tip'},
+      ];
+
+      _monthHistory.value = [
+        {'name': 'David Chen',    'service': "Men's Haircut",     'time': 'Today 2:30 PM',     'amount': '\$34.75', 'base': '\$29.75', 'tip': '+\$5.00 tip'},
+        {'name': 'Michael Scott', 'service': 'Hair + Beard',      'time': 'Yesterday 5:30 PM', 'amount': '\$45.89', 'base': '\$35.75', 'tip': '+\$10.00 tip'},
+        {'name': 'Julian Vance',  'service': 'Classic Pompadour', 'time': 'Mon 2:30 PM',       'amount': '\$39.50', 'base': '\$32.70', 'tip': '+\$7.00 tip'},
+        {'name': 'Chris Evans',   'service': 'Beard Trim',        'time': 'Mar 5 11:00 AM',    'amount': '\$22.00', 'base': '\$18.00', 'tip': '+\$4.00 tip'},
+        {'name': 'Tony Stark',    'service': "Men's Haircut",     'time': 'Mar 3 3:00 PM',     'amount': '\$30.00', 'base': '\$25.00', 'tip': '+\$5.00 tip'},
+      ];
+
+      _yearHistory.value = [
+        {'name': 'David Chen',    'service': "Men's Haircut",     'time': 'Today 2:30 PM',     'amount': '\$34.75', 'base': '\$29.75', 'tip': '+\$5.00 tip'},
+        {'name': 'Michael Scott', 'service': 'Hair + Beard',      'time': 'Yesterday 5:30 PM', 'amount': '\$45.89', 'base': '\$35.75', 'tip': '+\$10.00 tip'},
+        {'name': 'Julian Vance',  'service': 'Classic Pompadour', 'time': 'Mon 2:30 PM',       'amount': '\$39.50', 'base': '\$32.70', 'tip': '+\$7.00 tip'},
+        {'name': 'Chris Evans',   'service': 'Beard Trim',        'time': 'Mar 5 11:00 AM',    'amount': '\$22.00', 'base': '\$18.00', 'tip': '+\$4.00 tip'},
+        {'name': 'Tony Stark',    'service': "Men's Haircut",     'time': 'Mar 3 3:00 PM',     'amount': '\$30.00', 'base': '\$25.00', 'tip': '+\$5.00 tip'},
+        {'name': 'Bruce Wayne',   'service': 'Hair + Beard',      'time': 'Feb 20 1:00 PM',    'amount': '\$52.00', 'base': '\$42.00', 'tip': '+\$10.00 tip'},
+        {'name': 'Peter Parker',  'service': 'Classic Pompadour', 'time': 'Jan 15 10:00 AM',   'amount': '\$41.00', 'base': '\$34.00', 'tip': '+\$7.00 tip'},
+      ];
+
+      // ── DEV: Mock Payment Methods ──
+      _primaryIndex.value   = 0;
+      _paymentMethods.value = [
+        {'type': 'bank', 'title': 'Bank Account', 'subtitle': 'Brac Bank', 'last4': '4245'},
+        {'type': 'card', 'title': 'Debit Card',   'subtitle': 'Visa',      'last4': null},
+      ];
+// PRODUCTION:
+// final methodsData = await _api.getPaymentMethods();
+// _paymentMethods.value = List<Map<String, dynamic>>.from(methodsData['methods'] ?? []);
+// _primaryIndex.value   = methodsData['primary_index'] ?? 0;
+
+
       // ── PRODUCTION: uncomment ──
       // final dash = await _api.getBarberDashboard();
       // _earnings.value       = dash['earnings'] ?? '\$0';
@@ -310,6 +391,22 @@ class BarberHomeController extends GetxController {
     _reviews.value = updated;
     update();
     // PRODUCTION: await _api.submitReviewRating(reviewId: _reviews[index]['id'], stars: stars);
+  }
+
+  // ── Payment Methods ──
+  void setPrimaryMethod(int index) {
+    _primaryIndex.value = index;
+    update();
+    // PRODUCTION: await _api.setPrimaryPaymentMethod(methodId: _paymentMethods[index]['id']);
+  }
+
+  void deletePaymentMethod(int index) {
+    _paymentMethods.removeAt(index);
+    if (_primaryIndex.value >= _paymentMethods.length) {
+      _primaryIndex.value = 0;
+    }
+    update();
+    // PRODUCTION: await _api.deletePaymentMethod(methodId: method['id']);
   }
 
 

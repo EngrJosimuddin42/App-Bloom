@@ -49,6 +49,7 @@ class AppColors {
   static const Color textSecondary1  = Color(0xFF6A635C);
   static const Color textSecondary2  = Color(0xFFB3B3B3);
   static const Color textWhite      = Color(0xFFFFFFFF);
+  static const Color textBlack5      = Color(0xFF060606);
   static const Color textRed      = Color(0xFFFF7555);
   static const Color textOrange      = Color(0xFF7B3306);
   static const Color textYellow      = Color(0xFFFFCC00);
@@ -62,12 +63,14 @@ class AppColors {
 
   // Border / Divider
   static const Color border         = Color(0xFF5C5C5C);
-  static const Color borderRed         = Color(0xFFFF3B30);
   static const Color border1         = Color(0xFFE1BC54);
-  static const Color divider        = Color(0xFFF3F4F6);
   static const Color border2         = Color(0xFFE9E1D7);
   static const Color border3         = Color(0xFF6A7282);
   static const Color border4         = Color(0xFF4A5565);
+  static const Color border5         = Color(0xFFE7C976);
+  static const Color border6         = Color(0xFFD4AF37);
+  static const Color divider        = Color(0xFFF3F4F6);
+  static const Color borderRed         = Color(0xFFFF3B30);
 
   // Status Colors
   static const Color success        = Color(0xFF22C55E);
