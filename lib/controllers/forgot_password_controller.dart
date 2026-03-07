@@ -14,8 +14,8 @@ class ForgotPasswordController extends GetxController {
   final emailController = TextEditingController(text: 'josimcse@gmail.com');
   final List<TextEditingController> otpControllers =
   List.generate(6, (_) => TextEditingController(text: '0'));
-  final newPasswordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController(text: 'Test@1234');
+  final confirmPasswordController = TextEditingController(text: 'Test@1234');
 
   // ── State ──
   final _obscurePassword = true.obs;
@@ -93,6 +93,7 @@ class ForgotPasswordController extends GetxController {
       _step.value = ForgotPasswordStep.enterOtp;
       _startResendTimer();
     } catch (e) {
+      print('ERROR: $e');
       Get.snackbar(
         'Error',
         e.toString(),
@@ -189,7 +190,7 @@ class ForgotPasswordController extends GetxController {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
-      Get.back();
+      Get.until((route) => route.isFirst);
     } catch (e) {
       _passwordError.value = e.toString();
     } finally {

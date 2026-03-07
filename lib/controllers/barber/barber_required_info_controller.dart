@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/barber_home_controller.dart';
-import '../views/screens/home/barber/profile_setup/application_id_card.dart';
+import 'barber_home_controller.dart';
+import '../../views/screens/home/barber/profile_setup/application_id_card.dart';
 
 class BarberRequiredInfoController extends GetxController {
   // ── Form Controllers ──

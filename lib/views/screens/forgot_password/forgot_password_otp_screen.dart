@@ -20,6 +20,7 @@ class ForgotPasswordOtpScreen extends StatefulWidget {
 
 class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
   final List<FocusNode> _otpFocusNodes = List.generate(6, (_) => FocusNode());
+
   final controller = Get.put(ForgotPasswordController());
 
   @override

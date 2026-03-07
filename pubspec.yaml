@@ -13,7 +13,6 @@ dependencies:
   flutter_screenutil: ^5.9.0
   google_fonts: ^6.2.1
   cupertino_icons: ^1.0.8
-  shared_preferences: ^2.3.2
   get: ^4.6.6
   get_storage: ^2.1.1
   dio: ^5.4.0

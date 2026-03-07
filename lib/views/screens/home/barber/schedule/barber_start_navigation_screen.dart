@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-import '../../../../../controllers/barber_home_controller.dart';
+import '../../../../../controllers/barber/barber_home_controller.dart';
 import '../../../../../themes/app_colors.dart';
 import '../../../../base/custom_button.dart';
 import '../../../../base/direction_banner.dart';

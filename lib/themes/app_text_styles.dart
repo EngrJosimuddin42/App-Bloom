@@ -45,6 +45,11 @@ class AppTextStyles {
     fontSize: 15.sp,
     fontWeight: FontWeight.w600,
   );
+  static TextStyle get button => TextStyle(
+    color: AppColors.textPrimary,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w600,
+  );
 
   // Section / Label
   static TextStyle get sectionTitle => TextStyle(
@@ -89,6 +94,13 @@ class AppTextStyles {
     fontSize: 13.sp,
     height: 1.5,
   );
+
+  static TextStyle get bodySmall => TextStyle(
+    color: AppColors.textPrimary,
+    fontSize: 13.sp,
+    height: 1.5,
+  );
+
 
   static TextStyle get bodySecondary => TextStyle(
     color: AppColors.textSecondary2,

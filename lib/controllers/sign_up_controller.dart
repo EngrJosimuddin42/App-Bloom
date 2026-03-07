@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/api_service.dart';
 import '../views/screens/login_screen.dart';
+import '../views/screens/sign_up/sign_up_otp_screen.dart';
+import '../views/screens/sign_up/sign_up_success_screen.dart';
 
 enum UserRole { customer, barber }
 
@@ -11,13 +13,17 @@ class SignUpController extends GetxController {
   final _api = Get.find<ApiService>();
 
   // ── Controllers ──
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final firstNameController = TextEditingController(text: 'Marcus');
+  final lastNameController  = TextEditingController(text: 'Johnson');
+  final emailController     = TextEditingController(text: 'marcus@gmail.com');
+  final passwordController  = TextEditingController(text: 'Test@1234');
+  final confirmPasswordController = TextEditingController(text: 'Test@1234');
   final List<TextEditingController> otpControllers =
   List.generate(6, (_) => TextEditingController(text: '0'));
+
+  // ── DEV CONFIG ──
+  static const bool _devMode = true; // production এ false করুন
+
 
   // ── State ──
   final _role = UserRole.customer.obs;
@@ -25,7 +31,7 @@ class SignUpController extends GetxController {
   final _obscurePassword = true.obs;
   final _obscureConfirm = true.obs;
   final _sentEmail = ''.obs;
-  final List<bool> _otpTouched = List.generate(6, (_) => false);
+  final List<bool> _otpTouched = List.generate(6, (_) => _devMode);
   final _resendSeconds = 55.obs;
   final _firstNameError = RxnString();
   final _lastNameError = RxnString();
@@ -61,7 +67,6 @@ class SignUpController extends GetxController {
           confirmPasswordController.text.isNotEmpty;
 
   bool get isOtpFilled => _otpTouched.every((touched) => touched);
-
 
   @override
   void onInit() {
@@ -170,7 +175,7 @@ class SignUpController extends GetxController {
       );
       _sentEmail.value = emailController.text.trim();
       _startResendTimer();
-      Get.toNamed('/signup-otp');
+      Get.to(() => const SignUpOtpScreen());
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -203,7 +208,7 @@ class SignUpController extends GetxController {
         otp: otp,
       );
       _timer?.cancel();
-      Get.toNamed('/signup-success');
+      Get.to(() => const SignUpSuccessScreen());
     } catch (e) {
       _otpError.value = e.toString();
     } finally {

@@ -9,6 +9,11 @@ class ApiService {
 
   static const String _baseUrl = 'https://your-api.com/api';
 
+  // ── DEV CONFIG ──
+  // 'barber' করলে BarberHomeScreen এ যাবে
+  // 'customer' করলে CustomerHomeScreen এ যাবে
+  static const String _mockRole = 'customer';
+
   late final Dio _dio = Dio(
     BaseOptions(
       baseUrl: _baseUrl,
@@ -34,7 +39,7 @@ class ApiService {
       lastName: 'Johnson',
       email: email,
       token: 'mock-token-123',
-      role: 'barber', // ← 'customer' করলে customer home এ যাবে
+      role: _mockRole,
     );
     StorageHelper.saveToken(mockUser.token);
     StorageHelper.saveUser(mockUser);
@@ -73,49 +78,80 @@ class ApiService {
     required String confirmPassword,
     required String role,
   }) async {
-    try {
-      await _dio.post('/auth/register', data: {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': email,
-        'password': password,
-        'password_confirmation': confirmPassword,
-        'role': role,
-      });
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return;
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   await _dio.post('/auth/register', data: {
+    //     'first_name': firstName,
+    //     'last_name': lastName,
+    //     'email': email,
+    //     'password': password,
+    //     'password_confirmation': confirmPassword,
+    //     'role': role,
+    //   });
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
   }
 
   Future<UserModel> verifySignUpOtp({required String email, required String otp}) async {
-    try {
-      final response = await _dio.post('/auth/verify-email', data: {'email': email, 'otp': otp});
-      final data = response.data['data'] ?? response.data;
-      final user = UserModel.fromJson(data['user']);
-      final token = data['token'];
-      StorageHelper.saveToken(token);
-      StorageHelper.saveUser(user);
-      StorageHelper.setLoggedIn(true);
-      return user;
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    final mockUser = UserModel(
+      id: 1,
+      firstName: 'Marcus',
+      lastName: 'Johnson',
+      email: email,
+      token: 'mock-token-123',
+      role: _mockRole,
+    );
+    StorageHelper.saveToken(mockUser.token);
+    StorageHelper.saveUser(mockUser);
+    StorageHelper.setLoggedIn(true);
+    return mockUser;
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.post('/auth/verify-email', data: {'email': email, 'otp': otp});
+    //   final data = response.data['data'] ?? response.data;
+    //   final user = UserModel.fromJson(data['user']);
+    //   final token = data['token'];
+    //   StorageHelper.saveToken(token);
+    //   StorageHelper.saveUser(user);
+    //   StorageHelper.setLoggedIn(true);
+    //   return user;
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
   }
 
   Future<void> sendResetEmail({required String email}) async {
-    try {
-      await _dio.post('/auth/forgot-password', data: {'email': email});
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return;
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   await _dio.post('/auth/forgot-password', data: {'email': email});
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
   }
 
   Future<void> verifyOtp({required String email, required String otp}) async {
-    try {
-      await _dio.post('/auth/verify-otp', data: {'email': email, 'otp': otp});
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return;
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   await _dio.post('/auth/verify-otp', data: {'email': email, 'otp': otp});
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
   }
 
   Future<void> resetPassword({
@@ -124,16 +160,21 @@ class ApiService {
     required String newPassword,
     required String confirmPassword,
   }) async {
-    try {
-      await _dio.post('/auth/reset-password', data: {
-        'email': email,
-        'otp': otp,
-        'password': newPassword,
-        'password_confirmation': confirmPassword,
-      });
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return;
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   await _dio.post('/auth/reset-password', data: {
+    //     'email': email,
+    //     'otp': otp,
+    //     'password': newPassword,
+    //     'password_confirmation': confirmPassword,
+    //   });
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
   }
 
   // ─────────────────────────────────────────
@@ -373,6 +414,156 @@ class ApiService {
   }
 
   // ─────────────────────────────────────────
+  //  CUSTOMER
+  // ─────────────────────────────────────────
+
+  Future<List<Map<String, dynamic>>> getNearbyBarbers({
+    double? latitude,
+    double? longitude,
+  }) async {
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return [];
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.get('/customer/barbers/nearby', queryParameters: {
+    //     if (latitude != null) 'lat': latitude,
+    //     if (longitude != null) 'lng': longitude,
+    //   });
+    //   final list = response.data['data'] as List? ?? [];
+    //   return list.map<Map<String, dynamic>>((e) => Map<String, dynamic>.from(e)).toList();
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
+  }
+
+  Future<Map<String, dynamic>> getBarberProfile({required int barberId}) async {
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return {};
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.get('/customer/barbers/$barberId');
+    //   return response.data['data'] ?? response.data;
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
+  }
+
+  Future<List<Map<String, dynamic>>> getBarberServices({required int barberId}) async {
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return [];
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.get('/customer/barbers/$barberId/services');
+    //   final list = response.data['data'] as List? ?? [];
+    //   return list.map<Map<String, dynamic>>((e) => Map<String, dynamic>.from(e)).toList();
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
+  }
+
+  // ─────────────────────────────────────────
+  //  BOOKING
+  // ─────────────────────────────────────────
+
+  Future<Map<String, dynamic>> createPersonalBooking({
+    required int barberId,
+    required int serviceId,
+    required String preferredDate,
+    required String preferredTime,
+  }) async {
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return {'booking_id': 'mock-booking-001', 'status': 'pending'};
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.post('/customer/bookings/personal', data: {
+    //     'barber_id': barberId,
+    //     'service_id': serviceId,
+    //     'preferred_date': preferredDate,
+    //     'preferred_time': preferredTime,
+    //   });
+    //   return response.data['data'] ?? response.data;
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
+  }
+
+  Future<Map<String, dynamic>> createBusinessBooking({
+    required int barberId,
+    required int serviceId,
+    required int employeeCount,
+    required String companyName,
+    required String industry,
+    required String contactPerson,
+    required String email,
+    required String phone,
+    required String address,
+    String? taxId,
+    String? preferredDate,
+    String? preferredTime,
+  }) async {
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return {'booking_id': 'mock-booking-002', 'status': 'pending'};
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.post('/customer/bookings/business', data: {
+    //     'barber_id': barberId,
+    //     'service_id': serviceId,
+    //     'employee_count': employeeCount,
+    //     'company_name': companyName,
+    //     'industry': industry,
+    //     'contact_person': contactPerson,
+    //     'email': email,
+    //     'phone': phone,
+    //     'address': address,
+    //     if (taxId != null) 'tax_id': taxId,
+    //     if (preferredDate != null) 'preferred_date': preferredDate,
+    //     if (preferredTime != null) 'preferred_time': preferredTime,
+    //   });
+    //   return response.data['data'] ?? response.data;
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
+  }
+
+  Future<List<Map<String, dynamic>>> getCustomerBookings() async {
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return [];
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   final response = await _dio.get('/customer/bookings');
+    //   final list = response.data['data'] as List? ?? [];
+    //   return list.map<Map<String, dynamic>>((e) => Map<String, dynamic>.from(e)).toList();
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
+  }
+
+  Future<void> cancelBooking({required String bookingId}) async {
+    // ── DEV MODE ──
+    await Future.delayed(const Duration(milliseconds: 500));
+    return;
+
+    // ── PRODUCTION: uncomment ──
+    // try {
+    //   await _dio.post('/customer/bookings/$bookingId/cancel');
+    // } on DioException catch (e) {
+    //   throw _handleError(e);
+    // }
+  }
+
+  // ─────────────────────────────────────────
   //  Error Handler
   // ─────────────────────────────────────────
   String _handleError(DioException e) {
@@ -384,7 +575,9 @@ class ApiService {
         return 'No internet connection.';
       case DioExceptionType.badResponse:
         final statusCode = e.response?.statusCode;
-        final message = e.response?.data?['message'] ?? e.response?.data?['error'] ?? 'Something went wrong.';
+        final message = e.response?.data?['message'] ??
+            e.response?.data?['error'] ??
+            'Something went wrong.';
         if (statusCode == 401) return 'Invalid email or password.';
         if (statusCode == 422) return message.toString();
         if (statusCode == 404) return 'User not found.';

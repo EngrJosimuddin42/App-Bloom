@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../helpers/storage_helper.dart';
-import '../models/user_model.dart';
-import '../views/screens/home/barber/profile/reviews/barber_reviews_screen.dart';
-import '../views/screens/home/barber/profile_setup/verification_complete_dialog.dart';
-import '../views/screens/home/barber/request/barber_request_screen.dart';
-import '../views/screens/home/barber/schedule/barber_schedule_screen.dart';
-import '../views/screens/home/barber/schedule/barber_start_navigation_screen.dart';
-import '../views/screens/home/barber/profile/view_earnings/barber_earning_screen.dart';
+import '../../helpers/storage_helper.dart';
+import '../../models/user_model.dart';
+import '../../views/screens/home/barber/profile/reviews/barber_reviews_screen.dart';
+import '../../views/screens/home/barber/profile_setup/verification_complete_dialog.dart';
+import '../../views/screens/home/barber/request/barber_request_screen.dart';
+import '../../views/screens/home/barber/schedule/barber_schedule_screen.dart';
+import '../../views/screens/home/barber/schedule/barber_start_navigation_screen.dart';
+import '../../views/screens/home/barber/profile/view_earnings/barber_earning_screen.dart';
 
 class BarberHomeController extends GetxController {
 
@@ -397,6 +397,18 @@ class BarberHomeController extends GetxController {
     _primaryIndex.value = index;
     update();
     // PRODUCTION: await _api.setPrimaryPaymentMethod(methodId: _paymentMethods[index]['id']);
+  }
+
+  //-Add Payment Methods-
+  void addPaymentMethod(Map<String, dynamic> method) {
+    _paymentMethods.add(method);
+    update();
+  }
+// edit Payment Method
+  void updatePaymentMethod(int index, Map<String, dynamic> method) {
+    _paymentMethods[index] = method;
+    update();
+    // PRODUCTION: await _api.updatePaymentMethod(id: method['id'], data: method);
   }
 
   void deletePaymentMethod(int index) {

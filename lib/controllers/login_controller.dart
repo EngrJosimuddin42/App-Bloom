@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../services/api_service.dart';
 import '../views/screens/forgot_password/forgot_password_screen.dart';
 import '../views/screens/home/barber/barber_home_screen.dart';
+import '../views/screens/home/customer/customer_home_screen.dart';
 import '../views/screens/sign_up/sign_up_screen.dart';
 
 class LoginController extends GetxController {
@@ -100,7 +101,7 @@ class LoginController extends GetxController {
         Get.offAll(
               () => const BarberHomeScreen(),transition: Transition.noTransition);
       } else {
-        //Get.offAll(() => const CustomerHomeScreen(),transition: Transition.noTransition);
+        Get.offAll(() => const CustomerHomeScreen(),transition: Transition.noTransition);
       }
 
     } catch (e) {

@@ -7,13 +7,14 @@ import '../../../themes/app_colors.dart';
 import '../../../themes/app_text_styles.dart';
 import '../../base/custom_button.dart';
 import '../home/barber/profile_setup/barber_required_info_screen.dart';
+import '../home/customer/customer_home_screen.dart';
 
 class SignUpSuccessScreen extends StatelessWidget {
   const SignUpSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SignUpController());
+    final controller = Get.find<SignUpController>();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -78,7 +79,7 @@ class SignUpSuccessScreen extends StatelessWidget {
                           isEnabled: true,
                           onTap: () {
                             if (controller.isCustomer) {
-                              // Get.offAll(() => const HomeScreen());
+                              Get.offAll(() => const CustomerHomeScreen());
                             } else {
                               Get.to(
                                       () => const BarberRequiredInfoScreen());

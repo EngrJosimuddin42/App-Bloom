@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../../../controllers/barber_home_controller.dart';
+import '../../../../../../controllers/barber/barber_home_controller.dart';
 import '../../../../../../themes/app_colors.dart';
 import '../../../../../../themes/app_text_styles.dart';
 import '../../../../../base/add_payment_button.dart';
@@ -94,12 +94,17 @@ class BarberPaymentMethodScreen extends StatelessWidget {
                                   ),
                                   onEdit: () {
                                     final type = sorted[i]['type'];
+                                    final originalIndex = methods.indexOf(sorted[i]);
                                     if (type == 'bank') {
-                                      Get.to(() => const BarberAddBankAccountScreen(),
-                                          transition: Transition.rightToLeft);
+                                      Get.to(() => BarberAddBankAccountScreen(
+                                        editIndex: originalIndex,
+                                        existing: sorted[i],
+                                      ), transition: Transition.rightToLeft);
                                     } else {
-                                      Get.to(() => const BarberAddDebitCardScreen(),
-                                          transition: Transition.rightToLeft);
+                                      Get.to(() => BarberAddDebitCardScreen(
+                                        editIndex: originalIndex,
+                                        existing: sorted[i],
+                                      ), transition: Transition.rightToLeft);
                                     }
                                   },
                                   onDelete: () => c.deletePaymentMethod(

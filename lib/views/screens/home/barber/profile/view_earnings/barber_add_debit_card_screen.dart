@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../../../../controllers/barber/barber_home_controller.dart';
 import '../../../../../../themes/app_colors.dart';
 import '../../../../../../themes/app_text_styles.dart';
 import '../../../../../base/custom_text_field.dart';
 
 class BarberAddDebitCardScreen extends StatefulWidget {
-  const BarberAddDebitCardScreen({super.key});
+  final int? editIndex;
+  final Map<String, dynamic>? existing;
+  const BarberAddDebitCardScreen({super.key, this.editIndex, this.existing});
 
   @override
   State<BarberAddDebitCardScreen> createState() => _BarberAddDebitCardScreenState();
@@ -18,6 +21,15 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
   final _expiryController     = TextEditingController();
   final _cvvController        = TextEditingController();
   final _billingZipController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.existing != null) {
+      _cardNumberController.text = widget.existing!['last4'] ?? '';
+    }
+  }
+
 
   @override
   void dispose() {
@@ -166,7 +178,25 @@ class _BarberAddDebitCardScreenState extends State<BarberAddDebitCardScreen> {
                         color: Colors.white,
                         padding: EdgeInsets.all(12.w),
                         child: GestureDetector(
-                          onTap: () => Get.back(),
+                          onTap: () {
+                            final c = Get.find<BarberHomeController>();
+                            final method = {
+                              'type': 'card',
+                              'title': 'Debit Card',
+                              'subtitle': 'Visa',
+                              'last4': _cardNumberController.text.length >= 4
+                                  ? _cardNumberController.text.substring(
+                                  _cardNumberController.text.length - 4)
+                                  : null,
+                            };
+
+                            if (widget.editIndex != null) {
+                              c.updatePaymentMethod(widget.editIndex!, method);
+                            } else {
+                              c.addPaymentMethod(method);
+                            }
+                            Get.back();
+                          },
                           child: Container(
                             width: double.infinity,
                             padding: EdgeInsets.symmetric(vertical: 10.h),

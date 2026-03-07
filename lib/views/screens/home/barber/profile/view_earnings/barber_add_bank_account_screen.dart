@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../../../../controllers/barber/barber_home_controller.dart';
 import '../../../../../../themes/app_colors.dart';
 import '../../../../../../themes/app_text_styles.dart';
 import '../../../../../base/account_type_toggle.dart';
 import '../../../../../base/custom_text_field.dart';
 
 class BarberAddBankAccountScreen extends StatefulWidget {
-  const BarberAddBankAccountScreen({super.key});
+  final int? editIndex;
+  final Map<String, dynamic>? existing;
+  const BarberAddBankAccountScreen({super.key, this.editIndex, this.existing});
 
   @override
   State<BarberAddBankAccountScreen> createState() => _BarberAddBankAccountScreenState();
@@ -19,6 +22,15 @@ class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen>
   final _bankNameController      = TextEditingController();
   final _billingZipController    = TextEditingController();
   int _accountType = 0; // 0=Checking, 1=Savings
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.existing != null) {
+      _bankNameController.text = widget.existing!['subtitle'] ?? '';
+      _accountNumberController.text = widget.existing!['last4'] ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -114,7 +126,25 @@ class _BarberAddBankAccountScreenState extends State<BarberAddBankAccountScreen>
                         color: Colors.white,
                         padding: EdgeInsets.all(12.w),
                         child: GestureDetector(
-                          onTap: () => Get.back(),
+                          onTap: () {
+                            final c = Get.find<BarberHomeController>();
+                            final method = {
+                              'type': 'bank',
+                              'title': 'Bank Account',
+                              'subtitle': _bankNameController.text.isNotEmpty
+                                  ? _bankNameController.text : 'Bank Account',
+                              'last4': _accountNumberController.text.length >= 4
+                                  ? _accountNumberController.text.substring(
+                                  _accountNumberController.text.length - 4) : '0000',
+                            };
+
+                            if (widget.editIndex != null) {
+                              c.updatePaymentMethod(widget.editIndex!, method);
+                            } else {
+                              c.addPaymentMethod(method);
+                            }
+                            Get.back();
+                          },
                           child: Container(
                             width: double.infinity,
                             padding: EdgeInsets.symmetric(vertical: 12.h),

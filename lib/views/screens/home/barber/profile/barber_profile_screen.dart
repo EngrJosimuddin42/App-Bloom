@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../base/outlined_icon_button.dart';
 import '../../../../base/stat_box.dart';
 import 'barber_settings_screen.dart';
-import '../../../../../controllers/barber_home_controller.dart';
+import '../../../../../controllers/barber/barber_home_controller.dart';
 import '../../../../../themes/app_colors.dart';
 import '../../../../../themes/app_text_styles.dart';
 import '../../../../base/barber_bottom_nav.dart';

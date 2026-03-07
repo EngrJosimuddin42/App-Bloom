@@ -17,7 +17,7 @@ class SignUpOtpScreen extends StatefulWidget {
 
 class _SignUpOtpScreenState extends State<SignUpOtpScreen> {
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
-  final controller = Get.put(SignUpController());
+  final controller = Get.find<SignUpController>();
 
   @override
   void dispose() {
