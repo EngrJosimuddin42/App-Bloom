@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../controllers/customer/barber_profile_controller.dart';
+import '../../../../controllers/customer/customer_barber_profile_controller.dart';
 import '../../../../models/customer/review_model.dart';
 import '../../../../models/customer/barber_model.dart';
 import '../../../../themes/app_colors.dart';
@@ -11,8 +11,8 @@ import '../../../base/custom_button.dart';
 import 'Book_service_bottom_sheet.dart';
 
 
-class BarberProfileScreen extends StatelessWidget {
-  const BarberProfileScreen({super.key});
+class CustomerBarberProfileScreen extends StatelessWidget {
+  const CustomerBarberProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

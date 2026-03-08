@@ -8,12 +8,6 @@ class ApiService {
   ApiService._internal();
 
   static const String _baseUrl = 'https://your-api.com/api';
-
-  // ── DEV CONFIG ──
-  // 'barber' করলে BarberHomeScreen এ যাবে
-  // 'customer' করলে CustomerHomeScreen এ যাবে
-  static const String _mockRole = 'customer';
-
   late final Dio _dio = Dio(
     BaseOptions(
       baseUrl: _baseUrl,
@@ -33,13 +27,15 @@ class ApiService {
   Future<UserModel> login({required String email, required String password}) async {
     // ── DEV MODE ──
     await Future.delayed(const Duration(milliseconds: 500));
+    final role = StorageHelper.getRole();
+
     final mockUser = UserModel(
       id: 1,
       firstName: 'Marcus',
       lastName: 'Johnson',
       email: email,
       token: 'mock-token-123',
-      role: _mockRole,
+      role: role,
     );
     StorageHelper.saveToken(mockUser.token);
     StorageHelper.saveUser(mockUser);
@@ -97,7 +93,7 @@ class ApiService {
     // }
   }
 
-  Future<UserModel> verifySignUpOtp({required String email, required String otp}) async {
+  Future<UserModel> verifySignUpOtp({required String email, required String otp, String role = 'customer',}) async {
     // ── DEV MODE ──
     await Future.delayed(const Duration(milliseconds: 500));
     final mockUser = UserModel(
@@ -106,10 +102,11 @@ class ApiService {
       lastName: 'Johnson',
       email: email,
       token: 'mock-token-123',
-      role: _mockRole,
+      role: role,
     );
     StorageHelper.saveToken(mockUser.token);
     StorageHelper.saveUser(mockUser);
+    StorageHelper.saveRole(role);
     StorageHelper.setLoggedIn(true);
     return mockUser;
 

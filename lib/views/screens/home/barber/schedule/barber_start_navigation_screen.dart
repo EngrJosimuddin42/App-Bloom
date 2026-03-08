@@ -95,6 +95,7 @@ class _BarberStartNavigationScreenState
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Stack(
                   children: [
+
                     // ── Flutter Map ──
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12.r),
@@ -105,8 +106,6 @@ class _BarberStartNavigationScreenState
                       customerLocation: customerLocation,
                     ),
                 ),
-
-
 
                     // ── ETA Card ──
                     Positioned(

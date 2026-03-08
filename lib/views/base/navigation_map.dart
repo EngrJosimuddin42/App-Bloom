@@ -38,9 +38,10 @@ class NavigationMap extends StatelessWidget {
         PolylineLayer(
           polylines: [
             Polyline(
-              points: [barberLocation, customerLocation],
+              points: _buildRoutePoints(barberLocation, customerLocation),
               color: AppColors.backgroundOrange,
               strokeWidth: 4,
+              strokeCap: StrokeCap.round,
             ),
           ],
         ),
@@ -89,4 +90,17 @@ class NavigationMap extends StatelessWidget {
       ],
     );
   }
+}
+
+List<LatLng> _buildRoutePoints(LatLng start, LatLng end) {
+  final midLat = (start.latitude + end.latitude) / 2;
+  final midLng = (start.longitude + end.longitude) / 2;
+
+  return [
+    start,
+    LatLng(start.latitude, midLng),
+    LatLng(midLat, midLng),
+    LatLng(midLat, end.longitude),
+    end,
+  ];
 }

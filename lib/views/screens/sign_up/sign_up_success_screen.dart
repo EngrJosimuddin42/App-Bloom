@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../controllers/sign_up_controller.dart';
+import '../../../helpers/storage_helper.dart';
 import '../../../themes/app_colors.dart';
 import '../../../themes/app_text_styles.dart';
 import '../../base/custom_button.dart';
@@ -14,7 +14,7 @@ class SignUpSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<SignUpController>();
+    final isCustomer = StorageHelper.getRole() == 'customer';
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -27,13 +27,10 @@ class SignUpSuccessScreen extends StatelessWidget {
           top: true,
           child: Column(
             children: [
-              // ── Status bar extended area ──
               Container(
                 height: 10.h,
                 color: AppColors.backgroundBlack1,
               ),
-
-              // ── Main Content ──
               Expanded(
                 child: ColoredBox(
                   color: AppColors.background,
@@ -44,14 +41,12 @@ class SignUpSuccessScreen extends StatelessWidget {
                       children: [
                         SizedBox(height: 200.h),
 
-                        // ── Success Icon ──
                         Image.asset(
                           'assets/images/success_icon.png',
                           color: AppColors.success,
                         ),
                         SizedBox(height: 24.h),
 
-                        // ── Title ──
                         Text(
                           'Verification Successfully',
                           style: AppTextStyles.onboardingTitle.copyWith(
@@ -70,26 +65,24 @@ class SignUpSuccessScreen extends StatelessWidget {
 
                         SizedBox(height: 40.h),
 
-                        // ── CTA Button (Customer vs Barber) ──
-                        Obx(() => CustomButton(
-                          label: controller.isCustomer
+                        // ── CTA Button ──
+                        CustomButton(
+                          label: isCustomer
                               ? 'Go to Home'
                               : 'Apply for Verification',
                           isLoading: false,
                           isEnabled: true,
                           onTap: () {
-                            if (controller.isCustomer) {
+                            if (isCustomer) {
                               Get.offAll(() => const CustomerHomeScreen());
                             } else {
-                              Get.to(
-                                      () => const BarberRequiredInfoScreen());
+                              Get.to(() => const BarberRequiredInfoScreen());
                             }
                           },
-                        )),
+                        ),
 
                         const Spacer(),
 
-                        // ── Security Tip ──
                         Container(
                           padding: EdgeInsets.all(14.w),
                           decoration: BoxDecoration(

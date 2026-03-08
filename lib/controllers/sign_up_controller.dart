@@ -206,6 +206,7 @@ class SignUpController extends GetxController {
       await _api.verifySignUpOtp(
         email: _sentEmail.value,
         otp: otp,
+        role: isCustomer ? 'customer' : 'barber',
       );
       _timer?.cancel();
       Get.to(() => const SignUpSuccessScreen());

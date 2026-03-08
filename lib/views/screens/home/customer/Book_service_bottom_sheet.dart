@@ -1,9 +1,11 @@
+import 'package:app_bloom/views/screens/home/customer/personal_booking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../controllers/customer/barber_profile_controller.dart';
+import '../../../../controllers/customer/customer_barber_profile_controller.dart';
 import '../../../../themes/app_colors.dart';
 import '../../../../themes/app_text_styles.dart';
+import 'business_booking_screen.dart';
 
 
 class BookServiceBottomSheet extends StatelessWidget {
@@ -56,10 +58,7 @@ class BookServiceBottomSheet extends StatelessWidget {
                   label: 'Personal',
                   onTap: () {
                     Get.back();
-                    Get.toNamed('/employee-count', arguments: {
-                      'barber': controller.barber,
-                      'type': 'personal',
-                    });
+                    Get.to(() => const PersonalBookingScreen());
                   },
                 ),
               ),
@@ -70,9 +69,7 @@ class BookServiceBottomSheet extends StatelessWidget {
                   outlined: false,
                   onTap: () {
                     Get.back();
-                    Get.toNamed('/business-booking-form', arguments: {
-                      'barber': controller.barber,
-                    });
+                    Get.to(() => const BusinessBookingScreen());
                   },
                 ),
               ),

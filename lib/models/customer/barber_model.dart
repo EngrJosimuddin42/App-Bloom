@@ -21,6 +21,7 @@ class BarberModel {
   final List<String> specialties;
   final List<String> portfolioImages;
   final List<ReviewModel> reviews;
+  final String? avatarUrl;
 
   const BarberModel({
     required this.id,
@@ -43,6 +44,7 @@ class BarberModel {
     this.specialties = const [],
     this.portfolioImages = const [],
     this.reviews = const [],
+    this.avatarUrl,
   });
 
   String get fullName => '$firstName $lastName';

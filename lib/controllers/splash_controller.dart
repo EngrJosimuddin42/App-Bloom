@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../helpers/storage_helper.dart';
 import '../views/screens/home/barber/barber_home_screen.dart';
+import '../views/screens/home/customer/customer_home_screen.dart';
 import '../views/screens/login_screen.dart';
 import '../views/screens/onboarding_screen.dart';
 
@@ -15,10 +16,10 @@ class SplashController extends GetxController {
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 3));
 
-    // ── Navigation Logic ──
     if (StorageHelper.isLoggedIn() && StorageHelper.getToken() != null) {
+      final isBarber = StorageHelper.getRole() == 'barber';
       Get.offAll(
-            () => const BarberHomeScreen(),
+            () => isBarber ? const BarberHomeScreen() : const CustomerHomeScreen(),
         transition: Transition.fade,
         duration: const Duration(milliseconds: 500),
       );

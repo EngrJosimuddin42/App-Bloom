@@ -9,8 +9,8 @@ import '../../../../themes/app_text_styles.dart';
 import '../../../base/custom_button.dart';
 import '../../../base/custom_text_field.dart';
 
-class BusinessBookingFormScreen extends StatelessWidget {
-  const BusinessBookingFormScreen({super.key});
+class BusinessBookingScreen extends StatelessWidget {
+  const BusinessBookingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
